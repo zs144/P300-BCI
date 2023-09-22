@@ -99,12 +99,9 @@ section {
 
 - 50 detectability indices $d$ spanning from 0 (included) to 5 (included) evenly.
 
-- For each indices, run 100 epochs and calculate the average accuracy and EST.
+- For each indices, run 100 simulation trials and calculate the average accuracy and EST.
 
-- In each epoch, run a randomly orderred sequence $(R+C)$ for $s=10$ times at most, so the maximum trial $t_{max} = 120$.
-
-| Run it on DCC with 10000 epochs (2 minutes with 100 epochs on my local computer) |
-| ------------------------------------------------------------ |
+- In each simulation trial, run a randomly orderred sequence $(R+C)$ for $s=10$ times at most, so the maximum trial $t_{max} = 120$.
 
 ---
 ## Part 3: Results
