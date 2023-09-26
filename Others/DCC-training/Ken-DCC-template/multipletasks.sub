@@ -1,0 +1,16 @@
+#!/bin/bash
+#SBATCH --job-name=mulitple
+#SBATCH --mail-type=END,FAIL    
+#SBATCH --mail-user=<netid>@duke.edu
+#SBATCH --nodes=1
+#SBATCH --ntasks=4  # 
+#SBATCH --cpus-per-task=2
+#SBATCH --mem-per-cpu=4G
+echo "CPUS Per task $SLURM_CPUS_PER_TASK"
+srun --exclusive --ntasks=1 --nodes=1 --cpus-per-task=$SLURM_CPUS_PER_TASK bash -c "sleep 30; echo 'hello 1'"&
+srun --exclusive --ntasks=1 --nodes=1 --cpus-per-task=$SLURM_CPUS_PER_TASK bash -c "sleep 30; echo 'hello 2'"&
+srun --exclusive --ntasks=1 --nodes=1 --cpus-per-task=$SLURM_CPUS_PER_TASK bash -c "sleep 30; echo 'hello 3'"&
+srun --exclusive --ntasks=1 --nodes=1 --cpus-per-task=$SLURM_CPUS_PER_TASK bash -c "sleep 30; echo 'hello 4'"&
+wait
+
+

@@ -1,0 +1,21 @@
+#!/bin/bash
+#SBATCH --partition=defq
+#SBATCH --job-name=my_matlab_job
+#SBATCH --output=my_matlab_job-%j.out
+#SBATCH --error=my_matlab_job-%j.err
+#SBATCH --nodes=1
+#SBATCH --ntasks=1
+#SBATCH --cpus-per-task=12
+
+# Load MATLAB module
+module load matlab/R2022b
+
+# Define the MATLAB script to run
+MATLAB_SCRIPT=/path/to/your/matlab/script.m
+
+# Set the number of workers to use
+NUM_WORKERS=$SLURM_CPUS_PER_TASK
+
+# Run the MATLAB script using the specified number of workers
+matlab -nodesktop -nosplash -r "parpool('local', $NUM_WORKERS); run('$MATLAB_SCRIPT'); exit;"
+

@@ -1,0 +1,46 @@
+#!/bin/bash
+
+#SBATCH --job-name=NNUNET
+
+#SBATCH --nodes=1           # Use Only one Node (Server). Shortcut -N 1
+#SBATCH -p defq         	# It is default queue for now. Will be modified as nodes are added
+#SBATCH --ntasks=1           	# How Many  tasks (jobs) to run
+#SBATCH --cpus-per-task=32 	# or -c 8 for shortcut
+#SBATCH --gpus=2       		# 1 GPU per task
+
+#SBATCH --output=/home/ld258/output/slurm_logs/nnunet/NNUNET_run-%j.out
+#SBATCH --no-kill # allow job to continue with dead task
+#SBATCH --error=/home/ld258/output/slurm_logs/nnunet/NNUNET_error-%j.out
+
+module load singularity/singularity.module
+
+export NVIDIA_VISIBLE_DEVICES=$CUDA_VISIBLE_DEVICES
+export nnUNet_raw="/home/ld258/dataset/nnUNet/nnUNet_raw"
+export nnUNet_preprocessed="/home/ld258/dataset/nnUNet/nnUNet_preprocessed"
+export nnUNet_results="/home/ld258/dataset/nnUNet/nnUNet_results"
+export nnUNet_n_proc_DA=32
+
+echo "Testing singularity "
+echo "Running on "; hostname
+echo "cpu/gpu:  $SLURM_CPUS_PER_GPU"
+echo "nvidia Visible Devices: $NVIDIA_VISIBLE_DEVICES"
+echo "NNUNET_RAW PATH: $nnUNet_raw"
+echo "NNUNET_PREPROCESSED PATH: $nnUNet_preprocessed"
+echo "NNUNET_RESULTS PATH: $nnUNet_results"
+
+## --nv flag will make GPUs (NVIDIA_VISIBLE_DEVICES) available to singularity container
+##singularity exec --nv /home/ld258/projects/containers/dukeseg_latest.sif python /home/ld258/projects/duke_seg/nnUNet/nnunetv2/dataset_conversion/generate_dataset_json.py
+##singularity exec --bind /cachedata/ld258 --nv /home/ld258/projects/containers/dukeseg_latest.sif python /home/ld258/projects/duke_seg/reading_from_cache.py
+
+
+##singularity exec --nv /home/ld258/projects/containers/dukeseg_latest.sif python /home/ld258/projects/duke_seg/nnUNet/nnunetv2/run/run_training.py 1001 3d_fullres 0 -tr nnUNetTrainer_4000epochs_NoMirroring -num_gpus 2 --c
+##singularity exec --nv -u /home/ld258/projects/containers/dukeseg_latest.sif nnUNetv2_plan_and_preprocess -d 1001 -c 3d_fullres -np 32 -gpu_memory_target 48 --verify_dataset_integrity
+
+
+
+##singularity exec /home/ld258/projects/containers/dukeseg_latest.sif nnUNetv2_plan_and_preprocess -d 1002 -c 3d_fullres -np 32 --verify_dataset_integrity
+
+
+
+##Training Model3
+singularity exec --nv /home/ld258/projects/containers/dukeseg_latest.sif python /home/ld258/projects/duke_seg/nnUNet/nnunetv2/run/run_training.py 1002 3d_fullres 0 -tr nnUNetTrainer_4000epochs_NoMirroring -num_gpus 2

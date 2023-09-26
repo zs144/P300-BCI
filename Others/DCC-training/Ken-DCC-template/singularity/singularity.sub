@@ -1,0 +1,46 @@
+#!/bin/bash
+#SBATCH --job-name=Singularity_Test
+## These Double # signs are interpreted by SLURM as comments
+## while single # signs before SBATCH are not
+
+#SBATCH -N 1  		# Use Only one Node (Server)
+#SBATCH -p defq         # It is default queue for now. Will be modified as nodes are added
+#SBATCH -n 1            # How Many  tasks (jobs) to run
+#SBATCH --gpus=1        # 2 GPUs per task
+
+## Look above. We are running one tasks and reserving 2 gpus per task. so if you specify 
+## 4 tasks, all gpus are reserved
+
+##SBATCH --gres=gpu:1   
+## Above line is to if you want to specify what kind of gpu you want to use
+## For now all GPUs are A6000 so do not need to specify types. These are handy when
+## you need gpus with specific features.
+
+#SBATCH --cpus-per-gpu=16 # Feel free to modify to match your jobs.
+
+#SBATCH --output=log-%j.out # %j will attach a unique job number to your  output file
+#SBATCH --no-kill # allow job to continue with dead task
+
+#SBATCH --error=error-%j.out
+
+
+
+module load singularity/singularity.module
+export NVIDIA_VISIBLE_DEVICES=$CUDA_VISIBLE_DEVICES
+## The $CUDA_VISIBLE_DEVICES will show which gpus are made available to your jobs
+## the NVIDIA_VISIBLE_DEVICES is only for singularity 
+
+echo "Testing singularity "
+echo -n "hostname is "; hostname
+echo "cpu/Task: $SLURM_CPUS_PER_TASK"
+echo "visDev:   $CUDA_VISIBLE_DEVICES"
+echo "cpu/gpu:  $SLURM_CPUS_PER_GPU"
+echo "nvidia Visible Devices: $NVIDIA_VISIBLE_DEVICES"
+
+## --nv flag will make GPUs (NVIDIA_VISIBLE_DEVICES) available to singularity container
+## More at 
+## https://docs.sylabs.io/guides/master/user-guide/gpu.html#nvidia-gpus-cuda-nvidia-container-cli
+
+
+singularity run  --nv --bind $(pwd) ./tensorflow_latest-gpu.sif python mnisttest.py
+
