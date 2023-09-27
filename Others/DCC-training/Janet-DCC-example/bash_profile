@@ -1,0 +1,43 @@
+# .bash_profile
+
+# Get the aliases and functions
+if [ -f ~/.bashrc ]; then
+	. ~/.bashrc
+fi
+
+# User specific environment and startup programs
+
+PATH=$PATH:$HOME/.local/bin:$HOME/bin
+
+export PATH
+# export PATH=/opt/apps/rhel7/anaconda3/bin:$PATH
+
+
+# Setting Alias
+alias Janet='echo You got this!'
+alias tops='squeue -u xc130'
+alias pwdxs='squeue -u xc130 -o %N%Z'
+alias res='srun --pty bash -i'
+alias runmisc='sbatch --mail-type=END,FAIL --mail-user=xinlin.chen@duke.edu runmisc_cpu.sh'
+alias runmiscg='sbatch --mail-type=END,FAIL --mail-user=xinlin.chen@duke.edu runmisc_gpu.sh'
+alias runmiscgm='sbatch --mail-type=END,FAIL --mail-user=xinlin.chen@duke.edu runmisc_gpu_mainsahlab.sh'
+alias em='vim misc_err.err'
+alias om='vim misc_out.err'
+alias emg='vim miscg_err.err'
+alias omg='vim miscg_out.err'
+alias wq='watch -n 1 squeue -u xc130'
+alias cancelall='scancel -u xc130'
+alias cdir='cd /hpc/group/collinslab/xc130/.conda/amll/lib/python3.10/site-packages/'
+alias modules='cd /opt/apps/modulefiles'
+alias mc='cd /hpc/group/collinslab/xc130/miniconda3'
+alias nvidia='ssh dcc-collinslab-gpu-01 nvidia-smi 2>/dev/null;ssh dcc-collinslab-gpu-02 nvidia-smi 2>/dev/null;ssh dcc-collinslab-gpu-03 nvidia-smi 2>/dev/null;ssh dcc-collinslab-gpu-04 nvidia-smi 2>/dev/null;'
+alias topsall='squeue -p mainsahlab -t R'
+
+# Execute the desired commands
+echo The most important step you can take is always the next one!
+tops
+. /opt/apps/rhel7/anaconda3/etc/profile.d/conda.sh
+# Activating Conda environment
+conda activate amll
+# To not activate?
+# conda config --set auto_activate_base false
