@@ -12,6 +12,7 @@ Last updated 2023/05/17
 """
 
 import numpy as np
+from numpy import matlib
 import scipy.linalg as sla
 from scipy import stats #- for SWLDA stats
 from sklearn.metrics import roc_auc_score as get_auc
@@ -45,7 +46,7 @@ def stepwisefit(data,labels,penter=0.5,premove=0.15,max_iter=60,zmuv_normalize=F
         if step>=max_iter:
             break
         step += 1
-        
+
         if nextstep==0:
             break
         model_terms[nextstep] = np.invert(model_terms[nextstep])
@@ -230,7 +231,7 @@ class SWLDA:
 
     def update(self,new_data,new_labels):
         """Re-trains classifier with additional training data.
-        
+
         Does not update 'te_labels' according to the new parameters.
         """
         self.tr_data = np.vstack((self.tr_data,new_data))
@@ -239,7 +240,7 @@ class SWLDA:
         self.tr_labels = np.hstack((self.tr_labels,new_labels))
         self.weights,self.model_terms = stepwisefit(self.tr_data,self.tr_labels,self.penter,self.premove,self.max_iter,self.zmuv_normalize)
         self.tr_scores = np.matmul(self.tr_data[:,self.model_terms],self.weights[self.model_terms])
-    
+
     def test(self,data,labels=[]):
         """Apply classifier to testing data. If labels are provided, calculate AUC.
         """
@@ -247,7 +248,7 @@ class SWLDA:
         if len(labels)>0:
             self.auc = get_auc(labels,self.te_scores)
         return self.te_scores
-    
+
     def copy(self):
         """Copy classifier parameters over to a new classifier object.
         """
