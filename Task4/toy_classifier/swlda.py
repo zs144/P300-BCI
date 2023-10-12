@@ -247,6 +247,7 @@ class SWLDA:
         self.te_scores = np.matmul(data[:,self.model_terms],self.weights[self.model_terms])
         if len(labels)>0:
             self.auc = get_auc(labels,self.te_scores)
+            return self.auc
         return self.te_scores
 
     def copy(self):
