@@ -2,15 +2,6 @@ import numpy as np
 import pandas as pd
 import mne
 
-board = [["A",    "B",  "C",   "D",    "E",    "F",     "G",    "H"],
-         ["I",    "J",  "H",   "L",    "M",    "N",     "O",    "P"],
-         ["Q",    "R",  "S",   "T",    "U",    "V",     "W",    "X"],
-         ["Y",    "Z",  "Sp",  "1",    "2",    "3",     "4",    "5"],
-         ["6",    "7",  "8",   "9",    "0",    ".",     "RET",  "BS"],
-         ["CTRL", "=",  "DEL", "HOME", "UPAW", "END",   "PGUP", "SHIFT"],
-         ["SAVE", "'",  "F2",  "LFAW", "DNAW", "RTAW",  "PGON", "PAUSE"],
-         ["CAPS", "F5", "TAB", "EC",   "ESC",  "EMAIL", "!",    "SLEEP"]]
-
 
 def RCIndexConveter(board: list[list[int]], index: int) -> str:
     """
@@ -82,28 +73,20 @@ def blockwise_average_3D(A, S):
     return A.reshape(m,S[0],n,S[1],r,S[2]).mean((1,3,5))
 
 
-def split_data(epochs: mne.Epochs, n_times: int, n_samples: int):
-    targets = epochs['target'].get_data()
-    targets = targets[:,:,:n_times]
+def split_data(epochs: mne.Epochs, n_channels: int, n_times: int, n_samples: int):
+    features = epochs.get_data()
+    features = features[:,:,:n_times]
     sample_size = int(n_times / n_samples)
-    target_features = blockwise_average_3D(targets, (1,1,sample_size))
-    target_features = target_features.reshape(-1, n_samples)
+    features = blockwise_average_3D(features, (1,1,sample_size))
+    features = features.reshape(-1, n_channels*n_samples)
 
-    non_targets = epochs['non_target'].get_data()
-    non_targets = non_targets[:,:,:n_times]
-    non_targets_features = blockwise_average_3D(non_targets, (1,1,sample_size))
-    non_targets_features = non_targets_features.reshape(-1, n_samples)
-
-    features = np.concatenate((target_features, non_targets_features), axis=0)
-    target_response = np.ones(target_features.shape[0])
-    non_target_response = np.zeros(non_targets_features.shape[0])
-    response = np.concatenate((target_response, non_target_response), axis=0)
+    response = epochs.events[:, 2]
 
     return features, response
 
 
 def load_data(dir: str, obj: str, num_timestamps: int, epoch_size: int,
-              type: str, mode: str, num_sessions: int):
+              num_channels: int, type: str, mode: str, num_sessions: int):
     epochs_list = []
     if mode.lower() == 'train':
         dataset_range = range(1, num_sessions)
@@ -129,6 +112,7 @@ def load_data(dir: str, obj: str, num_timestamps: int, epoch_size: int,
         all_response = np.array([], dtype=np.float64)
         for epochs in epochs_list:
             features, response = split_data(epochs,
+                                            n_channels=num_channels,
                                             n_times=num_timestamps,
                                             n_samples=epoch_size)
             # I follow this stackoverflow post to concatenate np.array
