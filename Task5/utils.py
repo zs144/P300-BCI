@@ -86,12 +86,12 @@ def split_data(epochs: mne.Epochs, n_channels: int, n_times: int, n_samples: int
 
 
 def load_data(dir: str, obj: str, num_timestamps: int, epoch_size: int,
-              num_channels: int, type: str, mode: str, num_trials: int):
+              num_channels: int, type: str, mode: str, num_words: int):
     epochs_list = []
     if mode.lower() == 'train':
-        dataset_range = range(1, num_trials)
+        dataset_range = range(1, num_words+1)
     elif mode.lower() == 'test':
-        dataset_range = range(num_trials, 2*num_trials - 1)
+        dataset_range = range(num_words+1, 2*num_words + 1)
     else:
         raise ValueError('"mode" should be either "train" or "test".')
     for i in dataset_range:
