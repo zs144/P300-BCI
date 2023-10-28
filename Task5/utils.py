@@ -86,12 +86,12 @@ def split_data(epochs: mne.Epochs, n_channels: int, n_times: int, n_samples: int
 
 
 def load_data(dir: str, obj: str, num_timestamps: int, epoch_size: int,
-              num_channels: int, type: str, mode: str, num_sessions: int):
+              num_channels: int, type: str, mode: str, num_words: int):
     epochs_list = []
     if mode.lower() == 'train':
-        dataset_range = range(1, num_sessions)
+        dataset_range = range(1, num_words+1)
     elif mode.lower() == 'test':
-        dataset_range = range(num_sessions, 2*num_sessions - 1)
+        dataset_range = range(num_words+1, 2*num_words + 1)
     else:
         raise ValueError('"mode" should be either "train" or "test".')
     for i in dataset_range:
@@ -127,3 +127,31 @@ def load_data(dir: str, obj: str, num_timestamps: int, epoch_size: int,
                 all_response = response
 
     return all_features, all_response
+
+
+def get_flashing_schedule(board, raw_data, stim_begin_time):
+    N_ROWS = board.shape[0]
+    N_COLS = board.shape[1]
+    flashing_schedule = {time:[] for time in stim_begin_time}
+    for i in range(N_ROWS):
+        for j in range(N_COLS):
+            ch = board[i][j]
+            ch_index = N_COLS * i + j + 1
+            # Find stimulus events and target stimulus events.
+            # Non-zero value in `StimulusBegin` indicates stimulus onset.
+            stim_events       = mne.find_events(raw=raw_data,
+                                                stim_channel='StimulusBegin',
+                                                verbose=False)
+            # Non-zero value in `StimulusType` if is target stimulus event.
+            flashed_ch_events = mne.find_events(raw=raw_data,
+                                                stim_channel=f'{ch}_{i+1}_{j+1}',
+                                                verbose=False)
+
+            # Label flashed character events.
+            flashed_ch_time = np.isin(stim_events[:,0], flashed_ch_events[:,0])
+            stim_events[flashed_ch_time,2]  = ch_index
+            stim_events[~flashed_ch_time,2] = -1 # placeholder
+            for k in range(len(stim_begin_time)):
+                if stim_events[k, 2] != -1:
+                    flashing_schedule[stim_events[k, 0]].append(ch_index)
+    return flashing_schedule
