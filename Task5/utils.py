@@ -108,23 +108,23 @@ def load_data(dir: str, obj: str, num_timestamps: int, epoch_size: int,
         core_epochs = get_core_epochs(dataset)
         epochs_list.append(core_epochs)
 
-        all_features = np.array([], dtype=np.float64)
-        all_response = np.array([], dtype=np.float64)
-        for epochs in epochs_list:
-            features, response = split_data(epochs,
-                                            n_channels=num_channels,
-                                            n_times=num_timestamps,
-                                            n_samples=epoch_size)
-            # I follow this stackoverflow post to concatenate np.array
-            # link: https://stackoverflow.com/a/22732845/22322930
-            if all_features.size:
-                all_features = np.concatenate([all_features, features])
-            else:
-                all_features = features
-            if all_response.size:
-                all_response = np.concatenate([all_response, response])
-            else:
-                all_response = response
+    all_features = np.array([], dtype=np.float64)
+    all_response = np.array([], dtype=np.float64)
+    for epochs in epochs_list:
+        features, response = split_data(epochs,
+                                        n_channels=num_channels,
+                                        n_times=num_timestamps,
+                                        n_samples=epoch_size)
+        # I follow this stackoverflow post to concatenate np.array
+        # link: https://stackoverflow.com/a/22732845/22322930
+        if all_features.size:
+            all_features = np.concatenate([all_features, features])
+        else:
+            all_features = features
+        if all_response.size:
+            all_response = np.concatenate([all_response, response])
+        else:
+            all_response = response
 
     return all_features, all_response
 
