@@ -20,7 +20,7 @@ def RCIndexConveter(board: list[list[int]], index: int) -> str:
     return board[r][c]
 
 
-def eventIDs_to_strings(board: list[list[int]], event_ids: np.array):
+def eventIDs_to_sequence(board: list[list[int]], event_ids: np.array) -> list[str]:
     """
     Convert a seq of event IDs to the corresponding seq of characters.
 
@@ -28,9 +28,9 @@ def eventIDs_to_strings(board: list[list[int]], event_ids: np.array):
         - board (2d list of str): a rectangle board to display characters.
         - event_ids (1d np.array of int): a seq of event IDs.
     """
-    sequence = ''
+    sequence = []
     for id in event_ids:
-        sequence += RCIndexConveter(board, id)
+        sequence.append(RCIndexConveter(board, id))
     return sequence
 
 
