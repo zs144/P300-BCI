@@ -97,7 +97,7 @@ def split_data(epochs: mne.Epochs, n_channels: int, n_times: int, n_samples: int
 
 
 def load_data(p_dir: str, obj: str, num_timestamps: int, epoch_size: int,
-              num_channels: int, type: str, mode: str, num_words: int):
+              num_channels: int, type: str, mode: str):
     epochs_list = []
     if mode.lower() == 'train':
         directory = os.fsencode(p_dir+'/Train/RC')
