@@ -1,3 +1,4 @@
+import os
 import numpy as np
 import pandas as pd
 import mne
@@ -95,24 +96,19 @@ def split_data(epochs: mne.Epochs, n_channels: int, n_times: int, n_samples: int
     return features, response
 
 
-def load_data(dir: str, obj: str, num_timestamps: int, epoch_size: int,
+def load_data(p_dir: str, obj: str, num_timestamps: int, epoch_size: int,
               num_channels: int, type: str, mode: str, num_words: int):
     epochs_list = []
     if mode.lower() == 'train':
-        dataset_range = range(1, num_words+1)
+        directory = os.fsencode(p_dir+'/Train/RC')
     elif mode.lower() == 'test':
-        dataset_range = range(num_words+1, 2*num_words + 1)
+        directory = os.fsencode(p_dir+'/Test/Dyn')
     else:
         raise ValueError('"mode" should be either "train" or "test".')
-    for i in dataset_range:
-        i = str(i) if i >= 10 else '0'+str(i)
-        if mode.lower() == 'train':
-            file_path = dir + f'/Train/{type}/A{obj}_SE001{type}_Train{i}.edf'
-        elif mode.lower() == 'test':
-            file_path = dir + f'/Test/{type}/A{obj}_SE001{type}_Test{i}.edf'
-        else:
-            raise ValueError('"mode" should be either "train" or "test".')
-        dataset = mne.io.read_raw_edf(file_path, preload=True, verbose=False)
+
+    for file in os.scandir(directory):
+        file = os.fsdecode(file)
+        dataset = mne.io.read_raw_edf(file, preload=True, verbose=False)
         eeg_channels = mne.pick_channels_regexp(dataset.info['ch_names'], 'EEG')
         dataset.notch_filter(freqs=60, picks=eeg_channels, verbose=False)
         core_epochs = get_core_epochs(dataset)
