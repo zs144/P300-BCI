@@ -9,6 +9,10 @@ import time
 import matplotlib.pyplot as plt
 from scipy.io import loadmat
 
+# Define my colors
+MY_BLUE = '#2774AE'
+MY_GOLD = '#FFD100'
+
 
 def RCIndexConveter(board: list[list[int]], index: int) -> str:
     """
@@ -116,12 +120,8 @@ def load_data(dir: str, obj: str, num_timestamps: int, epoch_size: int,
     all_features = np.array([], dtype=np.float64)
     all_response = np.array([], dtype=np.float64)
     for epochs in epochs_list:
-        features, response = split_data(epochs,
-                                        n_channels=num_channels,
-                                        n_times=num_timestamps,
-                                        n_samples=epoch_size)
-        print(f'feature size is {features.shape}')
-        # FIXME: the number of timestamps is different!
+        features = epochs.get_data(copy=False)
+        response = epochs.events[:, 2]
         # I follow this stackoverflow post to concatenate np.array
         # link: https://stackoverflow.com/a/22732845/22322930
         if all_features.size:
@@ -167,6 +167,56 @@ def get_flashing_schedule(board, raw_data, stim_begin_time):
 
 # The following code is referred from this kaggle notebook:
 # https://www.kaggle.com/code/xevhemary/eeg-pytorch/notebook
+class EEGNet(nn.Module):
+    def __init__(self):
+        super(EEGNet, self).__init__()
+        self.F1 = 64  # F1: num of temporal filter
+        self.D  = 4   # D:  depth (num of spatial filter)
+        self.F2 = 256 # F2: num of pointwise filter = F1 * D
+        self.C  = 32  # C:  num of channels
+        self.N  = 2   # N:  num of classes (1: ERP signal, 0: non-ERP)
+        self.T  = 195 # T:  num of timestamps
+
+        # Conv2d(in,out,kernel,stride,padding,bias)
+        self.conv1 = nn.Sequential(
+            nn.Conv2d(in_channels=1, out_channels=self.F1, kernel_size=(1, 64),
+                      padding=(0, 32), bias=False),
+            nn.BatchNorm2d(num_features=self.F1)
+        )
+
+        self.conv2 = nn.Sequential(
+            nn.Conv2d(in_channels=self.F1, out_channels=self.D*self.F1,
+                      kernel_size=(self.C, 1), groups=self.F1, bias=False),
+            nn.BatchNorm2d(self.D*self.F1),
+            nn.ELU(),
+            nn.AvgPool2d((1, 4)),
+            nn.Dropout(0.5)
+        )
+
+        self.Conv3 = nn.Sequential(
+            nn.Conv2d(in_channels=self.D*self.F1, out_channels=self.D*self.F1,
+                      kernel_size=(1, 16), padding=(0, 8), groups=self.D*self.F1,
+                      bias=False),
+            nn.Conv2d(self.D*self.F1, self.F2, (1, 1), bias=False),
+            nn.BatchNorm2d(self.F2),
+            nn.ELU(),
+            nn.AvgPool2d((1, 8)),
+            nn.Dropout(0.5)
+        )
+
+        self.classifier = nn.Linear(in_features=self.F2*(self.T//32),
+                                    out_features=self.N, bias=True)
+
+    def forward(self, x):
+        x = self.conv1(x)
+        x = self.conv2(x)
+        x = self.Conv3(x)
+
+        x = x.view(-1, self.F2*(self.T//32))
+        x = self.classifier(x)
+        return x
+
+
 class Model(object):
     def __init__(self, model=None, lr=0.001):
         super(Model, self).__init__()
@@ -174,10 +224,11 @@ class Model(object):
         self.losses = nn.CrossEntropyLoss()
         self.optimizer = optim.Adam(model.parameters(), lr=lr)
 
-    def fit(self, trainloader=None, validloader=None, epochs=1, monitor=None, only_print_finish_ep_num=False):
+    def fit(self, trainloader=None, validloader=None, epochs=1, monitor=None,
+            only_print_finish_ep_num=False):
         device = 'cuda:0' if torch.cuda.is_available() else 'cpu'
         doValid = False if validloader == None else True
-        pre_ck_point = [float("inf"), 0.0, float("inf"), 0.0, 0] # loss, acc, val_loss, val_acc, epoch
+        pre_ck_point = [float("inf"), 0.0, float("inf"), 0.0, 0]
         history = {"loss": [], "acc": [], "val_loss": [], "val_acc": []}
         for ep in range(1, epochs + 1):
             proc_start = time.time() # timer start
@@ -187,7 +238,8 @@ class Model(object):
             self.model.train()       # Train mode
             step = 1                 # Restart step
             for x_batch, y_batch in trainloader:
-                x_batch, y_batch = x_batch.to(device, dtype=torch.float), y_batch.to(device)
+                x_batch  = x_batch.to(device, dtype=torch.float)
+                y_batch  = y_batch.to(device)
                 pred = self.model(x_batch)
                 loss = self.losses(pred, y_batch)
                 loss.backward()
@@ -201,18 +253,18 @@ class Model(object):
                             end="")
                 step += 1
             loss, acc = self.evaluate(trainloader)   # Loss & Accuracy
-            val_loss, val_acc = self.evaluate(validloader) if doValid else (0, 0)   # if have validation dataset, evaluate validation
+            val_loss, val_acc = self.evaluate(validloader) if doValid else (0, 0)
             history["loss"] = np.append(history["loss"], loss)
             history["acc"] = np.append(history["acc"], acc)
             history["val_loss"] = np.append(history["val_loss"], val_loss)
             history["val_acc"] = np.append(history["val_acc"], val_acc)
             # Update checkpoint
-            if self.__updateCheckpoint(monitor, pre_ck_point, [loss, acc, val_loss, val_acc, ep]):
-                save_file_name = f"checkpoint_model_ep-{ep}.pt"
-                self.save(save_file_name)
+            if self.__updateCheckpoint(monitor, pre_ck_point,
+                                       [loss, acc, val_loss, val_acc, ep]):
                 pre_ck_point = [loss, acc, val_loss, val_acc, ep]
-                history['lastest_model_path'] = save_file_name
-
+            if acc > max(history["acc"]):
+                save_file_name = "best_checkpoint_model.pt"
+                self.save(save_file_name)
             if only_print_finish_ep_num and (ep % 50 == 0):
                 print(f"{ep} ", end=" ")
         return history
@@ -222,11 +274,12 @@ class Model(object):
         total, acc = 0, 0
         self.model.eval()           # Eval mode
         for x_batch, y_batch in dataloader:
-            x_batch, y_batch = x_batch.to(device, dtype=torch.float), y_batch.to(device)
+            x_batch = x_batch.to(device, dtype=torch.float)
+            y_batch = y_batch.to(device)
             pred = self.model(x_batch)
             loss = self.losses(pred, y_batch).item()
             total += y_batch.shape[0]     # Number of data
-            acc += (torch.sum(pred.argmax(dim=1)==y_batch)).item()     # Sum the prediction that's correct
+            acc += (torch.sum(pred.argmax(dim=1)==y_batch)).item()
         acc /= total     # Accuracy = correct prediction / number of data
         return (loss, acc)
 
@@ -237,7 +290,8 @@ class Model(object):
         truth = []
         self.model.eval()
         for x_batch, y_batch in dataloader:
-            x_batch, y_batch = x_batch.to(device, dtype=torch.float), y_batch.to(device)
+            x_batch = x_batch.to(device, dtype=torch.float)
+            y_batch = y_batch.to(device)
             pred = self.model(x_batch).cpu()
             prediction = np.append(prediction, pred.argmax(dim=1).numpy())
             truth = np.append(truth, y_batch.cpu().numpy())
@@ -270,15 +324,15 @@ class Model(object):
 
 def plot_acc_and_loss(history, figsize=(10,4)):
     fig, (ax1, ax2) = plt.subplots(1, 2, figsize=figsize)
-    ax1.title.set_text("Acc")
+    ax1.title.set_text("Accuracy")
     ax1.set_xlabel("Epochs")
-    l1 = ax1.plot(history["acc"], color="red", label='train')
-    l2 = ax1.plot(history["val_acc"], color="blue", label='test')
+    l1 = ax1.plot(history["acc"], color=MY_BLUE, label='train')
+    l2 = ax1.plot(history["val_acc"], color=MY_GOLD, label='test')
     ax2.title.set_text("Loss")
-    ax2.set_ylabel("Epochs")
-    l3 = ax2.plot(history["loss"], color="red", label='train')
-    l4 = ax2.plot(history["val_loss"], color="blue", label='test')
+    ax2.set_xlabel("Epochs")
+    l3 = ax2.plot(history["loss"], color=MY_BLUE, label='train')
+    l4 = ax2.plot(history["val_loss"], color=MY_GOLD, label='test')
 
-    ax1.legend(loc="upper right")
-    ax2.legend(loc="upper right")
+    ax1.legend(loc="lower right")
+    ax2.legend(loc="lower right")
     plt.show()
