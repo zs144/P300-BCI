@@ -83,7 +83,7 @@ def blockwise_average_3D(A, S):
 
 
 def split_data(epochs: mne.Epochs, n_channels: int, n_times: int, n_samples: int):
-    features = epochs.get_data()
+    features = epochs.get_data(copy=True )
     features = features[:,:,:n_times]
     sample_size = int(n_times / n_samples)
     features = blockwise_average_3D(features, (1,1,sample_size))
@@ -300,7 +300,6 @@ class Model(object):
     def save(self, filepath):
         torch.save(self.model, filepath)
 
-    #@classmethod
     def load(cls, filepath):
         return cls(torch.load(filepath))
 
