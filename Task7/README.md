@@ -46,7 +46,15 @@ In this task, we are going to create a CNN-based classifier to classify the EEG 
 
 ## Q&A
 
+Q: Can we confirm that the EEGNet can be generalized on different users? If so, theoretically why CNN can achieve this whereas traditional methods like SWLDA can't?
 
+> Comments: It takes longer time and more computation power to train a EEGNet, so the model should be able to work across different users. Otherwise, it is not cost-effective. EEGNet训练成本太高啦，如果还是user-specific，每次都要等很久才能训练好这个classifier更不划算。
+
+
+
+
+
+Q2: Compared to the benchmark method (we choose SWLDA here), is the train/test accuracy derived by EEGNet higher than the benchmark? (the gap and statistical significance)
 
 
 
