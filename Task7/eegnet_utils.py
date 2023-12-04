@@ -193,7 +193,7 @@ class EEGNet(nn.Module):
             nn.Dropout(0.5)
         )
 
-        self.Conv3 = nn.Sequential(
+        self.conv3 = nn.Sequential(
             nn.Conv2d(in_channels=self.D*self.F1, out_channels=self.D*self.F1,
                       kernel_size=(1, 16), padding=(0, 8), groups=self.D*self.F1,
                       bias=False),
@@ -210,7 +210,7 @@ class EEGNet(nn.Module):
     def forward(self, x):
         x = self.conv1(x)
         x = self.conv2(x)
-        x = self.Conv3(x)
+        x = self.conv3(x)
 
         x = x.view(-1, self.F2*(self.T//32))
         x = self.classifier(x)
@@ -262,7 +262,7 @@ class Model(object):
             if self.__updateCheckpoint(monitor, pre_ck_point,
                                        [loss, acc, val_loss, val_acc, ep]):
                 pre_ck_point = [loss, acc, val_loss, val_acc, ep]
-            if acc > max(history["acc"]):
+            if acc >= max(history["acc"]):
                 save_file_name = "best_checkpoint_model.pt"
                 self.save(save_file_name)
             if only_print_finish_ep_num and (ep % 50 == 0):
@@ -300,8 +300,10 @@ class Model(object):
     def save(self, filepath):
         torch.save(self.model, filepath)
 
+    @classmethod
     def load(cls, filepath):
-        return cls(torch.load(filepath))
+        device = 'cuda:0' if torch.cuda.is_available() else 'cpu'
+        return cls(torch.load(filepath, map_location=device))
 
     def __updateCheckpoint(self, monitor, pre_ck_point, evaluation):
         if type(monitor) is int:
