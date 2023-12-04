@@ -46,15 +46,19 @@ In this task, we are going to create a CNN-based classifier to classify the EEG 
 
 ## Q&A
 
-Q: Can we confirm that the EEGNet can be generalized on different users? If so, theoretically why CNN can achieve this whereas traditional methods like SWLDA can't?
+Q1: Can we confirm that the EEGNet can be generalized on different users? If so, theoretically why CNN can achieve this whereas traditional methods like SWLDA can't?
 
-> Comments: It takes longer time and more computation power to train a EEGNet, so the model should be able to work across different users. Otherwise, it is not cost-effective. EEGNet训练成本太高啦，如果还是user-specific，每次都要等很久才能训练好这个classifier更不划算。
+> Comments: It takes longer time and more computation power to train a EEGNet, so the model should be able to work across different users. Otherwise, it is not cost-effective. EEGNet训练成本太高啦，如果还是user-specific，每次都要等很久才能训练好这个classifier更不划算。但如果有很好的泛化能力，那么均摊下来的训练成本就可以接受。 
 
-
+A: 根据论文，作者确实是假设EEGNet具有泛化能力，即在未见的数据点上也能保持较好的预测性能。而实验结果也支持这一点。零训练和有训练的EEGNet均能达到和SWLDA相近的测试准确度。这里摘录一些原文：“With this goal, our study begins with an offline experiment through which we show that a CNN can achieve reasonable performance only by using other subjects' data.”， 
 
 
 
 Q2: Compared to the benchmark method (we choose SWLDA here), is the train/test accuracy derived by EEGNet higher than the benchmark? (the gap and statistical significance)
+
+
+
+Q3: We found a serious bug in the implementation. The training and validation (testing) process looks good, but strange things happen when we feed other data into the network because it either predicted the result of all 0 or all 1. We need further investigations. Here are some things to check: 1) the distribution of trained weights; 2) why validation process looks good but predicting on the same data set is problematic? 3) why the prediction output of the early models (from earlier epochs) and later models remains the same (`ep-1`, `6`, `10`) where they should be the same according to the accuracy/loss curves.
 
 
 
