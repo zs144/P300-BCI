@@ -18,7 +18,7 @@ section {
 </style>
 # **Independent Study Weekly Meeting 14**
 
-#### Apply EEGNet to the P300 speller (Part 1)
+#### Apply EEGNet to the P300 speller based on Lee et al's work (2020)
 
 Zion Sheng
 Department of ECE
@@ -29,7 +29,8 @@ Duke University
 
 1. Topic 1: Introduce CNN to the EEG-based BCI
 2. Topic 2: What is EEGNet?
-3. Topic 3: Thoughts on some other DL methods (LM)
+3. Topic 3: My implementation and questions
+4. Topic 4: Thoughts on other DL methods (with LM focus)
 
 ---
 ## Topic 1: Introduce CNN to the EEG-based BCI
@@ -89,7 +90,7 @@ section {
 
 ### The potential power of CNN:
 
-The following image illustrates the locality of the temporal and spatial pattern. The correlation map in the first row picture the Pearson correlation coefficient between a certain electrode and the final output at certain timestamp. The topological graph in the second row shows the mean of these eletrodes across the surface.
+The following image [1] illustrates the locality of the temporal and spatial pattern. The correlation map in the first row picture the Pearson correlation coefficient between a certain electrode and the final output at certain timestamp. The topological graph in the second row shows the mean of these eletrodes across the surface.
 
 ![width:700px center](images/time-space.jpg)
 
@@ -126,11 +127,11 @@ section {
 }
 </style>
 
-### Visualization of EEGNet:
+### Visualization of EEGNet (from [2]):
 ![width:800px center](images/architecture.jpg)
 
 ---
-## Result comparison
+## Result comparison (from [1])
 <style scoped>
 img[alt~="center"] {
   display: block;
@@ -143,6 +144,80 @@ section {
 </style>
 
 ![width:600px center](images/acc.jpg)
+
+---
+## Topic 3: My implementation and questions
+<style scoped>
+img[alt~="center"] {
+  display: block;
+  margin: 0 auto;
+}
+
+section {
+  font-size: 25px
+}
+</style>
+
+There are several open-sourced implementations of EEGNet. I chose this [one](https://www.kaggle.com/code/xevhemary/eeg-pytorch/notebook#HyperParameter) as the reference and implement my EEGNet for the P300 speller I am working on ($8 \times 9$, RC paradigm). But soon I realized there is one important thing not clearly specified in the paper - **what this EEGNet classifier actually classifies**. At first, I took for granted that it replaced the SWLDA classifier in the EEG signal classification section, ie. classifying if the signal contains ERP or not. However, the problem is how can the output of the EEGNet classifier be integrated with the main BCI where we decide the targeted rows and columns. As far as I know, this is not clearly demonstrated in the paper. The classifier generates some "output scores", but no more details are provided on how to derive the scores and they decide the BCI's output.
+
+However, I still implement an EEGNet model for the EEG signal classification task (`1`: with the appearance of event-related potential; `0`: w/o ERP).
+
+---
+## Topic 3: My implementation and questions
+<style scoped>
+img[alt~="center"] {
+  display: block;
+  margin: 0 auto;
+}
+
+section {
+  font-size: 25px
+}
+</style>
+
+The architecture of my EEGNet looks like this ((from [1])):
+
+![width:400px center](images/model.jpg)
+
+F1 = number of temporal filters = 64, D = depth multiplier (number of spatial filters) = 4, F2 = number of pointwise filters = 256, and N = number of classes = 2, T = 195.
+
+---
+## Topic 3: My implementation and questions
+<style scoped>
+img[alt~="center"] {
+  display: block;
+  margin: 0 auto;
+}
+
+section {
+  font-size: 25px
+}
+</style>
+
+We use SGD to train this network with `BATCH_SIZE = 32`. We use Adam as the optimization algorithm to update the weights with a fixed learning rate `LR = 0.001`. The number of epochs is 100. The training and testing data set are the same as we used before, which is stored in `EDFData-StudyA`. The accuracy and loss during the training process are shown in the two graphs below. The best test accuracy is $89.3\%$.
+
+![width:800px center](images/acc_and_loss.png)
+
+---
+## Topic 3: My implementation and questions
+<style scoped>
+img[alt~="center"] {
+  display: block;
+  margin: 0 auto;
+}
+
+section {
+  font-size: 25px
+}
+</style>
+
+We also compute the average test accuracy using the SWLDA classifier, which is $88.5\%$. So the EEGNet classifier ($89.3\%$) can perform slightly better than the SWLDA classifier. However, we need to notice that we avoid the repeated training process on each participant for the EEGNet classifier. The generalizability of EEGNet is verified by our result.
+
+**Further work**:
+- Try to get more result visualization, such as each participant's performance.
+- Tweak the training configuration to see if we can achieve higher accuracy.
+- Try to interpret what is learned by our EEGNet.
+- Figure out how to integrate this EEGNet classifier with the rest of the P300 speller.
 
 ---
 
@@ -158,6 +233,26 @@ section {
 }
 </style>
 
-⏭ Read the paper "*Language Model-Guided Classifier Adaptation for Brain-Computer Interfaces for Communication*".
-⏭ Replicate the result in the EEGNet paper.
+As I planned before, I am interested in exploring the possibility of applying some DL-based language models on the P300 speller we are developing. It turns out that EEGNet is not the one I am looking for. So far, I know the latest paper published by Professors and Janet (2022) is LM-related, so the last mission for this semester is to read this paper and reproduce some results. Hopefully, I can learn something from it, and explore more DL-based methods.
+
+✅ Replicate part of results in the EEGNet paper.
+⏭ Read the paper *Language Model-Guided Classifier Adaptation for Brain-Computer Interfaces for Communication*.
+
+---
+
+## Reference
+<style scoped>
+img[alt~="center"] {
+  display: block;
+  margin: 0 auto;
+}
+
+section {
+  font-size: 30px
+}
+</style>
+
+[1] Lee, Jongmin, et al. "CNN with large data achieves true zero-training in online P300 brain-computer interface." *IEEE Access* 8 (2020): 74385-74400.
+
+[2] Lawhern, Vernon J., et al. "EEGNet: a compact convolutional neural network for EEG-based brain–computer interfaces." *Journal of neural engineering* 15.5 (2018): 056013.
 
