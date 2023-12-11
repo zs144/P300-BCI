@@ -164,7 +164,6 @@ def get_flashing_schedule(board, raw_data, stim_begin_time):
     return flashing_schedule
 
 
-
 # The following code is referred from this kaggle notebook:
 # https://www.kaggle.com/code/xevhemary/eeg-pytorch/notebook
 class EEGNet(nn.Module):
@@ -217,122 +216,65 @@ class EEGNet(nn.Module):
         return x
 
 
-class Model(object):
-    def __init__(self, model=None, lr=0.001):
-        super(Model, self).__init__()
-        self.model = model
-        self.losses = nn.CrossEntropyLoss()
-        self.optimizer = optim.Adam(model.parameters(), lr=lr)
-
-    def fit(self, trainloader=None, validloader=None, epochs=1, monitor=None,
-            only_print_finish_ep_num=False):
-        device = 'cuda:0' if torch.cuda.is_available() else 'cpu'
-        doValid = False if validloader == None else True
-        pre_ck_point = [float("inf"), 0.0, float("inf"), 0.0, 0]
-        history = {"loss": [], "acc": [], "val_loss": [], "val_acc": []}
-        for ep in range(1, epochs + 1):
-            proc_start = time.time() # timer start
-            if (not (ep % 10)) or (ep == 1):
-                if not only_print_finish_ep_num:
-                    print(f"Epoch {ep}/{epochs}")
-            self.model.train()       # Train mode
-            step = 1                 # Restart step
-            for x_batch, y_batch in trainloader:
-                x_batch  = x_batch.to(device, dtype=torch.float)
-                y_batch  = y_batch.to(device)
-                pred = self.model(x_batch)
-                loss = self.losses(pred, y_batch)
-                loss.backward()
-                self.optimizer.step()
-                self.optimizer.zero_grad()
-                if (not (ep % 10)) or (ep == 1):
-                    pbar = int(step * 30 / len(trainloader))
-                    if not only_print_finish_ep_num:
-                        print("\r{}/{} [{}{}]".format(
-                            step, len(trainloader), ">" * pbar, " " * (30 - pbar)),
-                            end="")
-                step += 1
-            loss, acc = self.evaluate(trainloader)   # Loss & Accuracy
-            val_loss, val_acc = self.evaluate(validloader) if doValid else (0, 0)
-            history["loss"] = np.append(history["loss"], loss)
-            history["acc"] = np.append(history["acc"], acc)
-            history["val_loss"] = np.append(history["val_loss"], val_loss)
-            history["val_acc"] = np.append(history["val_acc"], val_acc)
-            # Update checkpoint
-            if self.__updateCheckpoint(monitor, pre_ck_point,
-                                       [loss, acc, val_loss, val_acc, ep]):
-                pre_ck_point = [loss, acc, val_loss, val_acc, ep]
-            if acc >= max(history["acc"]):
-                save_file_name = "best_checkpoint_model.pt"
-                self.save(save_file_name)
-            if only_print_finish_ep_num and (ep % 50 == 0):
-                print(f"{ep} ", end=" ")
-        return history
-
-    def evaluate(self, dataloader):
-        device = 'cuda:0' if torch.cuda.is_available() else 'cpu'
-        total, acc = 0, 0
-        self.model.eval()           # Eval mode
-        for x_batch, y_batch in dataloader:
+def evaluate(model, device, criterion, data_loader):
+    total, acc, loss = 0, 0, 0
+    model.eval()
+    with torch.no_grad():
+        for x_batch, y_batch in data_loader:
             x_batch = x_batch.to(device, dtype=torch.float)
             y_batch = y_batch.to(device)
-            pred = self.model(x_batch)
-            loss = self.losses(pred, y_batch).item()
-            total += y_batch.shape[0]     # Number of data
+            pred = model(x_batch)
+            loss += criterion(pred, y_batch).item()
+            total += y_batch.shape[0]
             acc += (torch.sum(pred.argmax(dim=1)==y_batch)).item()
-        acc /= total     # Accuracy = correct prediction / number of data
-        return (loss, acc)
+        acc  /= total
+        loss /= total
+    return (loss, acc)
 
-    def predict(self, dataset):
-        device = 'cuda:0' if torch.cuda.is_available() else 'cpu'
-        dataloader = DataLoader(dataset=dataset, batch_size=1, shuffle=False)
-        prediction = []
-        truth = []
-        self.model.eval()
-        for x_batch, y_batch in dataloader:
-            x_batch = x_batch.to(device, dtype=torch.float)
-            y_batch = y_batch.to(device)
-            pred = self.model(x_batch).cpu()
-            prediction = np.append(prediction, pred.argmax(dim=1).numpy())
-            truth = np.append(truth, y_batch.cpu().numpy())
-        return prediction, truth
 
-    def save(self, filepath):
-        torch.save(self.model, filepath)
+def train_model(model, device, optimizer, criterion,
+                train_loader=None, valid_loader=None, epochs=1,):
+    best_val_acc = 0
+    history = {"train_loss": [], "train_acc": [], "val_loss": [], "val_acc": []}
+    for i in range(1, epochs+1):
+        model.train()
+        if (i == 1 or i % 10 == 0): print("\nEpoch [{}/{}]".format(i, epochs))
+        for x_batch, y_batch in train_loader:
+            x_batch  = x_batch.to(device, dtype=torch.float)
+            y_batch  = y_batch.to(device)
+            optimizer.zero_grad()
+            outputs = model(x_batch)
+            loss = criterion(outputs, y_batch)
+            loss.backward()
+            optimizer.step()
 
-    @classmethod
-    def load(cls, filepath):
-        device = 'cuda:0' if torch.cuda.is_available() else 'cpu'
-        return cls(torch.load(filepath, map_location=device))
+        train_loss, train_acc = evaluate(model, device, criterion, train_loader)
+        val_loss, val_acc = evaluate(model, device, criterion, valid_loader)
+        history["train_loss"].append(train_loss)
+        history["train_acc"].append(train_acc)
+        history["val_loss"].append(val_loss)
+        history["val_acc"].append(val_acc)
 
-    def __updateCheckpoint(self, monitor, pre_ck_point, evaluation):
-        if type(monitor) is int:
-            return True if evaluation[4] % monitor == 0 else False
-        elif type(monitor) is list:
-            for _ in monitor:
-                if not _ in ["loss", "acc", "val_loss", "val_acc"]:
-                    raise Exception(f"\"{_}\" is not a valid monitor condition.")
-                elif _ == "loss" and pre_ck_point[0] <= evaluation[0]:
-                    return False # present epoch loss > history loss
-                elif _ == "acc" and pre_ck_point[1] >= evaluation[1]:
-                    return False # present epoch acc <= history acc
-                elif _ == "val_loss" and pre_ck_point[2] <= evaluation[2]:
-                    return False # present epoch val_loss > history val_loss
-                elif _ == "val_acc" and pre_ck_point[3] >= evaluation[3]:
-                    return False # present epoch val_acc < history val_acc
-        return True
+        if val_acc > best_val_acc:
+            torch.save(model.state_dict(), "./new_model/best_eegnet_model.pt")
+            best_val_acc = val_acc
+
+    result = {'model': model, 'history': history}
+    return result
 
 
 def plot_acc_and_loss(history, figsize=(10,4)):
     fig, (ax1, ax2) = plt.subplots(1, 2, figsize=figsize)
     ax1.title.set_text("Accuracy")
+    ax1.set_ylim(0.5, 1)
     ax1.set_xlabel("Epochs")
-    l1 = ax1.plot(history["acc"], color=MY_BLUE, label='train')
-    l2 = ax1.plot(history["val_acc"], color=MY_GOLD, label='test')
-    ax2.title.set_text("Loss")
+    l1 = ax1.plot(history["train_acc"], color='r', lw=2, label='train')
+    l2 = ax1.plot(history["val_acc"], color='b', lw=2, label='test')
+    ax2.title.set_text("Mean Loss")
     ax2.set_xlabel("Epochs")
-    l3 = ax2.plot(history["loss"], color=MY_BLUE, label='train')
-    l4 = ax2.plot(history["val_loss"], color=MY_GOLD, label='test')
+    ax2.set_ylim(0.01, 0.02)
+    l3 = ax2.plot(history["train_loss"], color='r', lw=2, label='train')
+    l4 = ax2.plot(history["val_loss"], color='b', lw=2, label='test')
 
     ax1.legend(loc="lower right")
     ax2.legend(loc="lower right")
