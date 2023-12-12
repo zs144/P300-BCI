@@ -1,5 +1,9 @@
 # README for Task 7
 
+> **Attention** ‼️
+>
+> Task 7 is fundamentally updated (commit ID: `57a9b28`). Long story short: in the self-directed final project of ECE684 ([link](https://gitlab.com/m11298/duke_ece684) to the GitLab repo), we also did some experiment with EEGNet. We started from using the old code here, and soon realized a bug that we should tackle - the problem of unbalanced data (targets only takes up 12%). After some debugging and improvement, the upgraded code there works very well, so we decided to replace the old code in task 7 by the new code there.
+
 ## Abstract
 
 ```mermaid
