@@ -74,7 +74,7 @@ def blockwise_average_3D(A, S):
 
 
 def split_data(epochs: mne.Epochs, n_channels: int, n_times: int, n_samples: int):
-    features = epochs.get_data(copy=True)
+    features = epochs.get_data(copy=False)
     features = features[:,:,:n_times]
     sample_size = int(n_times / n_samples)
     features = blockwise_average_3D(features, (1,1,sample_size))
@@ -85,7 +85,7 @@ def split_data(epochs: mne.Epochs, n_channels: int, n_times: int, n_samples: int
     return features, response
 
 
-def load_data(dir: str, obj: str, num_timestamps: int, epoch_size: int,
+def load_data(dir: str, sbj: str, num_timestamps: int, epoch_size: int,
               num_channels: int, type: str, mode: str, num_words: int):
     epochs_list = []
     if mode.lower() == 'train':
@@ -97,9 +97,9 @@ def load_data(dir: str, obj: str, num_timestamps: int, epoch_size: int,
     for i in dataset_range:
         i = str(i) if i >= 10 else '0'+str(i)
         if mode.lower() == 'train':
-            file_path = dir + f'/Train/{type}/A{obj}_SE001{type}_Train{i}.edf'
+            file_path = dir + f'/Train/{type}/A{sbj}_SE001{type}_Train{i}.edf'
         elif mode.lower() == 'test':
-            file_path = dir + f'/Test/{type}/A{obj}_SE001{type}_Test{i}.edf'
+            file_path = dir + f'/Test/{type}/A{sbj}_SE001{type}_Test{i}.edf'
         else:
             raise ValueError('"mode" should be either "train" or "test".')
         dataset = mne.io.read_raw_edf(file_path, preload=True, verbose=False)
