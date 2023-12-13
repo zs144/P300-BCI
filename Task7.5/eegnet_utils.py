@@ -9,6 +9,15 @@ import matplotlib.pyplot as plt
 MY_BLUE = '#2774AE'
 MY_GOLD = '#FFD100'
 
+def RCChar2Index(board: list[list[int]], char: str) -> int:
+    """ Convert a char to its index. """
+
+    num_cols = len(board[0])
+    row_index = np.where(board=='A')[0][0]
+    col_index = np.where(board=='A')[1][0]
+    index = row_index * num_cols + col_index + 1 # index start from 1
+    return index
+
 
 def RCIndexConveter(board: list[list[int]], index: int) -> str:
     """
