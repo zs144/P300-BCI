@@ -1,13 +1,9 @@
+import os
 import numpy as np
-import pandas as pd
 import mne
 import torch
 import torch.nn as nn
-import torch.optim as optim
-from torch.utils.data import DataLoader
-import time
 import matplotlib.pyplot as plt
-from scipy.io import loadmat
 
 # Define my colors
 MY_BLUE = '#2774AE'
@@ -94,24 +90,12 @@ def split_data(epochs: mne.Epochs, n_channels: int, n_times: int, n_samples: int
     return features, response
 
 
-def load_data(dir: str, sbj: str, num_timestamps: int, epoch_size: int,
-              num_channels: int, type: str, mode: str, num_words: int):
+def load_data(path: str):
     epochs_list = []
-    if mode.lower() == 'train':
-        dataset_range = range(1, num_words+1)
-    elif mode.lower() == 'test':
-        dataset_range = range(num_words+1, 2*num_words + 1)
-    else:
-        raise ValueError('"mode" should be either "train" or "test".')
-    for i in dataset_range:
-        i = str(i) if i >= 10 else '0'+str(i)
-        if mode.lower() == 'train':
-            file_path = dir + f'/Train/{type}/A{sbj}_SE001{type}_Train{i}.edf'
-        elif mode.lower() == 'test':
-            file_path = dir + f'/Test/{type}/A{sbj}_SE001{type}_Test{i}.edf'
-        else:
-            raise ValueError('"mode" should be either "train" or "test".')
-        dataset = mne.io.read_raw_edf(file_path, preload=True, verbose=False)
+    dir = os.fsencode(path)
+    for file in os.scandir(dir):
+        file = os.fsdecode(file)
+        dataset = mne.io.read_raw_edf(file, preload=True, verbose=False)
         eeg_channels = mne.pick_channels_regexp(dataset.info['ch_names'], 'EEG')
         dataset.notch_filter(freqs=60, picks=eeg_channels, verbose=False)
         epochs = get_all_epochs(dataset)
