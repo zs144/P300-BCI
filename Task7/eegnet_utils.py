@@ -256,7 +256,7 @@ def train_model(model, device, optimizer, criterion,
         history["val_acc"].append(val_acc)
 
         if val_acc > best_val_acc:
-            torch.save(model.state_dict(), "./new_model/best_eegnet_model.pt")
+            torch.save(model.state_dict(), "./model/best_eegnet_model.pt")
             best_val_acc = val_acc
 
     result = {'model': model, 'history': history}
