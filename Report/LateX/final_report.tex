@@ -1,0 +1,328 @@
+\documentclass{article}
+
+
+
+\usepackage{arxiv}
+
+\usepackage[utf8]{inputenc} % allow utf-8 input
+\usepackage[T1]{fontenc}    % use 8-bit T1 fonts
+\usepackage{hyperref}       % hyperlinks
+\usepackage{url}            % simple URL typesetting
+\usepackage{booktabs}       % professional-quality tables
+\usepackage{amsfonts}       % blackboard math symbols
+\usepackage{nicefrac}       % compact symbols for 1/2, etc.
+\usepackage{microtype}      % microtypography
+\usepackage{lipsum}		% Can be removed after putting your text content
+\usepackage{graphicx}
+\usepackage{natbib}
+\usepackage{doi}
+\usepackage{amsmath,amsfonts,amssymb,amsthm}
+\usepackage{enumitem}
+\usepackage{adjustbox}
+\usepackage{array,ragged2e}
+\usepackage{longtable}
+\usepackage{pdflscape}
+\usepackage{makecell}
+\usepackage[font=small]{caption}
+\usepackage[justification=centering]{caption}
+\usepackage{booktabs}
+\usepackage{chngcntr} % for local labelling
+\usepackage{mathtools, nccmath}
+\usepackage{physics}
+\usepackage{subfig}
+\usepackage{fancyvrb}
+\usepackage{tcolorbox} % Grey Box Hightlight
+\usepackage{color}
+\usepackage{float}
+\usepackage[fontsize=12pt]{fontsize}
+\setlength\parindent{0pt}
+
+
+\graphicspath{{../images/}} % NOTE: Put all your figures in this directory.
+
+\title{Final Report for Independent Study in P300 Spellers: Understanding the Progress and Comparing Some Representative Algorithms}
+
+\author{
+	Zion Sheng (NetID: zs144)\\
+	Department of ECE\\
+	Duke University\\
+	Durham, NC 27708 \\
+	\texttt{zion.sheng@duke.edu} \\
+}
+
+\date{} % remove the date
+
+% Uncomment to override  the `A preprint' in the header
+% \renewcommand{\headeright}{Technical Report}
+\renewcommand{\undertitle}{ECE899 (Indepedent Study) Final Report}
+% \renewcommand{\shorttitle}{\textit{arXiv} Template}
+
+%%% Add PDF metadata to help others organize their library
+%%% Once the PDF is generated, you can check the metadata with
+%%% $ pdfinfo template.pdf
+\hypersetup{
+	pdftitle={A template for the arxiv style},
+	pdfsubject={machine learning},
+	pdfauthor={Zion Sheng},
+	pdfkeywords={machine learning, natural language processing, deep learning, n-gram \textbf{language model}, brain-computer interface, P300 speller},
+}
+
+\begin{document}
+\maketitle
+
+\vspace{-5mm}
+\begin{abstract}
+	Brain-computer interface (BCI) is a broad collection of machines that can facilitate the interaction between human brains and external devices. Generally, each type of BCI is designed to work on a specific task, and the P300 speller is the one used for word spelling by utilizing a special electroencephalogram (EEG) signal called the P300 waves. The intention to type a certain character can be the condition to elicit the P300 waves, so the core component of the P300 speller is essentially a classifier. Among all the traditional classification algorithms, many empirical studies have shown that stepwise linear discriminant analysis (SWLDA) can reach state-of-the-art performance, and it can be further enhanced by some language models. On the other hand, with the emergence of many miracle deep learning techniques, recent studies have turned to exploring the possible combination of deep learning models and the P300 speller. In this paper, we are going to investigate two competitive frameworks, one is the SWLDA combined with an n-gram language model, and the other is EEGNet, a novel neural network-based solution. The two methods are tested on the real data from 17 participants on online spelling tasks. Although the results demonstrate that EEGNet has undoubtedly better generalizability than SWLDA, the latter achieves a higher average spelling accuracy, which again defends its title.
+\end{abstract}
+
+
+% keywords can be removed
+\keywords{machine learning, natural language processing, deep learning, n-gram language model, brain-computer interface, P300 speller}
+
+
+\section{Problem Description} \label{Description}
+\subsection{Background} \label{Background}
+Recently, Brain-computer interfaces (BCIs) have gained increasing attention as an alternative human-machine communication tool. Many BCIs are reported to have the potentials to augment nomral people's perception ability and extend physical limit. But more importantly, many BCIs can help to restore control/communication ability and mobility to disabled people. Among these types of BCIs, the P300 speller is targeted to individuals with severe neruomuscular injuries, who can not communicate effectively by speaking, writing, or typing on a regular keyboard. Typical users of P300 spellers are Amyotrophic lateral sclerosis (ALS) patients, especially in the late stage of the disease (commonly known as the "lockced-in" stage) as the nervous system has lost most muscle control \cite{moghimi2013review}. It's impossible for these patients to move any part of their body, including vocal cord, fingers, and eyes, to complete even a simple spelling task in any language. However, as long as the brain and cognitive ability are in normal operation, there is still hope. The first P300 speller was created by \cite{farwell1988talking}, which enables the user to "type" on a virtual keyboard on the screen by utilizing a special EEG signal called the P300 waves. Based on this pioneering work, later scientists have proposed many new designs by applying better hardwares, adpating the inner algorithms, and updating the display settings, but the general framework of the P300 spellers didn't change much.\\
+
+\vspace{-3mm}
+Before we start to elaborate on the general framework, it is necessary to give a brief explanation of what is the P300 waves and why they can be used on spelling tasks. We all know that the brain (or generally, the neural system) will generate electrical signals/waves in all kinds of neural activities, and different input stimuli or intended reactions will lead to a different shape of the signals/waves. Those signals/waves depending on the preceding events are called event-related potentials (ERPs), where the P300 waves also fall in this category. The P300 waves occur due to a ubiquitous neural activity mechanism called the oddball paradigm, which happens when the subject detects the appearance of a rare stimulus out of those common stimulus events presented more frequently. Such a mechanism will lead to two different brainwaves depending on whether the received stimuli is the target (rare) or non-target (frequent). Figure \ref{fig:1} illustrates a representative waveform of the P300 wave (red line) VS non-P300 wave from one of the participants in the experiment data we used in this paper. We will give more details about the data in the later sections, but the visualization here is already sufficient to give us the intuition that the P300 wave is obviously distinctive from non-P300 wave as there is a positive deflection in voltage occurs around 200 ms - 400 ms after the target stimulus is presented.
+
+\vspace{-3mm}
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.5\linewidth]{waves.png}
+	\vspace*{-1.5mm}
+	\captionof{figure}{Waveforms of P300 waves (elicited by target stimuli) and non-P300 waves}
+	\label{fig:1}
+\end{figure}
+
+\vspace{-3mm}
+Given this useful mechanism, we can combine it with the visual display of the characters on the keyboard. Subjects are asked to focus on one desired character while every time a random subset of these characters is flashed. Suppose there are $N$ characters in total and the subset size is $k$, then the probability of the target being flashed is around ${N \choose k-1} / {N \choose k} = \frac{k}{N-k+1}$. Therefore, such a rare event will elicit a P300 wave every time it happens. This is exactly how the P300 spellers can infer the desired character that users want to type.
+
+\subsection{General Framework of P300 spellers} \label{Framework}
+There are three key components in the general framework that applies on every P300 speller: a screen to show the keyboard, a headset to collect EEG signals, a computer to serve the communication between subjects and the keyboard. The connection of these components is shown in Figure \ref{fig:2}.
+
+\vspace{-3mm}
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.7\linewidth]{overview.png}
+	\captionof{figure}{The general framework of P300 spellers (credit: \cite{brunner2011rapid})}
+	\label{fig:2}
+\end{figure}
+
+The general process is that, the computer first acts as the metronome and scheduler of the character display by picking a subset of characters to flash every time with a fixed time interval. There are several popular flashing paradigms, and we choose to use the simple but effective one - the "RC" (row-column) paradigm, which flashes a whole row or column each time. Users are asked to focus on the desired character and count how many times it gets flashed. By doing so, the P300 wave will be generated once the targeted character is in the flashed row or column. Users also need to wear a headset to monitor the EEG signals from different areas on the brain surface. These sensors are not invasive, so we can only collect the signals from certain areas where the signals are strong, although this still can not avoid the effect of noise. Next, the data will be transmitted to the computer where a pre-trained user-specific classifier is used to decide whether or not the P300 waves occur. The computer will keep track of the decisions and accumulate them as a score for each character. Once it is confident to infer the desired character, it will turn to the next character by repeating the above procedure. Usually, the inference tends to be more accurate with more flashes (or called "trials"), but the side-effect is that users will gradually get bored and distracted. Another concern is that we want every row and column to get flashed by the same amount of times to avoid any unfairness, so the number of flashes to spell one character is usually measured as $s$ sequences, where one sequence is flashing all rows and columns.
+
+
+\subsection{Our work} \label{Work}
+Based on this basic framework, there are many details in design and implementation waiting to be specified. It is also these "details" that extend and upgrade the P300 spellers from the very first one (\cite{farwell1988talking}) to a huge family with each member having some valuable features. \cite{elshout2009review} and \cite{fang2021recent} respectively provides a comprehensive review on the development of P300 spellers. By learning this history, we can see the path of the improvements in the hardware, in the classification and inference algorithms, and in the stopping rules, especially the emergence of deep learning-based techniques in the last decade. Serving as the final project for this course, we will specifically focus on the two variations of the P300 speller in this study. They are different in the choice of signal-classification and character-inference algorithms, but both are reported to achieve a competitive performance. One of them uses step-wise linear discriminant analysis (SWLDA) combined with Bayesian inference, whereas another one is powered by a neural network (called EEGNet). Note that the choice of the methods aligns with the project requirement. The first one is the generative probabilistic model as we need to estimate the conditional distribution of the target class and non-target class. On the contrary, The second one is the discriminative neural network since it only outputs the decision results. In addition, it is also worth mentioning that the methods here utilize the n-gram \textbf{language model} to facilitate the spelling task. We will elucidate all these technical details in the following sections.\\
+
+\vspace{-3mm}
+In this study, we first read the related papers to figure out the details of the two methods, which will be covered in Section \ref{Methods}. Then, we implemented the algorithmic part of the two methods in Python and tested them on the dataset we borrowed from \cite{mainsah2014utilizing} (we received the permission of the original authors). The specifications of the data and experiment setup are clearly explained in Section \ref{Experiment}. Results are provided in Section \ref{Results}, where we also included the analysis by comparing the two approaches qualitatively and quantitatively. Finally, \ref{Conclusion} gives a brief summary of the study accompanied by some thoughts for future work.
+
+
+\section{Methods} \label{Methods}
+First, let's take a quick look at the workflow of the algorithmic part of P300 spellers as shown in Figure \ref{fig:3}. The gray boxes (steps) are shared commonly in both methods, whereas the red boxes indicate the places to make different design choices. 
+
+\vspace{-3mm}
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=1.0\linewidth]{framework.jpg}
+	\captionof{figure}{The general workflow of the algorithmic part of P300 spellers}
+	\label{fig:3}
+\end{figure}
+
+\vspace{-3mm}
+We start from the offline training portion in the lower part of Figure \ref{fig:3}. Here, we need to pre-train a classifier so that it can detect the presentation of the P300 wave given a standardized chunk of EEG signals which usually span from the beginning of the stimulus till $800$ ms later. Due to the high variance of the reactions from different subjects to the same stimuli, traditionally it is recommended to train a signal classifier for each user based on his/her training data. However, recent DL-based methods suggest a robust generalizability can be achieved. Therefore, we will stick to the traditional approach when training the SWLDA classifier, and for EEGNet, we will try to build a general classifier without being user-specific. Now, we are ready to move on to the online experiment portion, where "online" refers to the real-time application of the P300 speller. To spell each letter, the computer first needs to initialize the character scores. The initial scores are the same, but as we enter the iterations of the flash and update, the scores will change and polarize. In each iteration, we will randomly choose a row and column to flash. The subject is required to focus on the desired character and count the times it gets flashed. The observation of the EEG signal in a fixed time interval (800 ms) is sent to the classifier in the computer and the output is returned to update the scores. The general rule is that characters in any row or column that elicits a P300 wave should have a higher score increment. Theoretically, only the row and the column where the desired character resides can generate a P300 signal, so the score of that character should be the highest after some trials.\\
+
+\vspace{-3mm}
+However, in practice, the EEG signals we collect are very noisy, making the classifier prone to make a wrong classification. This can severely disturb the inference of the target. Thus, we need to either find a better classification algorithm that can survive under a low signal-to-noise (SNR) ratio, OR we can try to avoid the erroneous tendency by some special processing, such as adding the \textbf{language model} when initializing the scores (as we highlighted in the top-left box of Figure \ref{fig:3}). Even though the subject can only spell a single character each time, those previously typed ones can still provide useful information.
+
+
+
+\subsection{Methods 1: SWLDA + Bayesain Inference (enhanced by the Language Model)} \label{SWLDA}
+The first approach uses SWLDA as the signal-classification algorithm (the red box in the bottom of Figure \ref{fig:3}), Bayesian inference as the score-updating algorithm (the red box in the middle-left of Figure \ref{fig:3}), and 2-gram LM to aid the score initialization (the red box in the top-left of Figure \ref{fig:3}). We have learned LDA in class. Recall that LDA aims to find a linear combination of features that can maximize the separation of different classes while maintaining a low variance within each class. SWLDA is essentially LDA but trained in a stepwise manner. In each iteration, SWLDA will try different combinations by adding or dropping some features based on certain criteria until it finally finds the optimal one. To implement SWLDA, we refer to the existing \texttt{stepwisefit} function in \texttt{MATLAB} and LDA implementation in \texttt{Scikit-learn}, the code is enclosed in \texttt{swlda.py} submitted with this report.\\
+
+\vspace{-3mm}
+Now suppose the classifier is well-trained and correctly returns the classification score for every EEG input data, now we need to think about how to update the score of each character. Bayesian inference uses the Bayes theorem to update the probability of each character being the target given the information accumulated along the trails. To do this, we need to estimate the probability density function of the classifier scores ($y$) of non-P300 waves (non-target) and P300 waves (target), defined as $P(y|H_0)$ and $P(y|H_1)$ respectively. Let $C_m$ denote any character, and $C^*$ denote the target character. From trail $0$ to trail $t$, suppose $\boldsymbol{F_t}=[\mathcal{F}_1, \mathcal{F}_2, ..., \mathcal{F}_t]$ is a series of stimulus event presentations, and $\mathbf{Y_t} = [y_1, y_2, ..., y_t]$ is classifier score responses. After each stimulus is presented, the classifier score, $y_t$, will be used to update the character probabilities:
+
+\begin{equation}
+	P(C_m = C^*|\mathbf{Y_t}, \mathcal{F}_t) = \frac{P(C_m = C^*|\mathbf{Y_{t-1}}, \mathcal{F}_{t-1})p(y_t|C_m = C^*, \mathcal{F}_t)}{\sum^M_{j=1}P(C_j = C^*|\mathbf{Y_{t-1}}, \mathcal{F}_{t-1})p(y_t|C_j = C^*, \mathcal{F}_t)}
+\end{equation}
+
+The likelihood, $p(y_t|C_m = C^*, \mathcal{F}_t)$, for each character $C_m$ is updated depending on whether or not the character is in the flashed subset:
+
+\begin{equation}
+	p(y_t|C_m = C^*, \mathcal{F}_t) = \left\{
+	\begin{aligned}
+		& p(y_t|H_0) & (C_m \notin \mathcal{F}_t) \\
+		& p(y_t|H_1) & (C_m \in \mathcal{F}_t) \\
+	\end{aligned} 
+\right.
+\end{equation}
+
+The final thing that needs to be specified is the initial probability score of each character, denoted by $P(C_m = C^*|\mathbf{Y_0}, \mathcal{F}_0)$. An intuitive way is to set them all equally to $1/N$ where $N$ is the number of characters. This works well for the first letter to spell, but for the later letters, it's not the most effective way since we waste the information from the previously typed letters. Typically, subjects are required to type a meaningful English word (usually contains 5-7 letters). Given the prior knowledge of the first few letters, the probability distribution of letters in the current location is not uniform. Now suppose any English word can be decomposed into a series of characters $[c_1, c_2, ..., c_k]$. Here, we are going to apply a 2-gram model to correct the initial probability scores for the second and following letters. Firstly, we approximate the conditional probabilities $P(c_i|c_{i-1})$ by maximum likelihood estimation using a relative frequency count $f(c_{i-1}c_{i})$ and $f(c_{i-1})$:
+
+\begin{equation}
+	P(c_i|c_{i-1}) = \frac{f(c_{i-1}c_{i})}{f(c_{i-1})}
+\end{equation}
+	
+As \cite{mainsah2014utilizing} suggests, we choose to use the Carnegie Mellon University online dictionary as the training corpus to derive the conditional probabilities. The result can be visualized by the paired probability matrix shown in Figure \ref{fig:4} below:
+
+\vspace{-3mm}
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.5\linewidth]{2gram.png}
+	\captionof{figure}{Probability matrix of paired English character}
+	\label{fig:4}
+\end{figure}
+
+\vspace{-3mm}
+Before we integrate the \textbf{language model} with the rest of the algorithmic part, we need to address the concern that the previously typed letter is incorrect. To avoid the possible negative effect, we can neutralize the LM-guided probability distribution with the uniform distribution we used before. Another detail that needs to be taken care of is that not all characters on the keyboard are English letters, so we need to rescale the probability. The final form of the equation to initialize the probability scores of the $n$-th character can be expressed by:
+
+\begin{equation}
+	P(C_i) = \alpha P(C_i|A_{i-1})(1 - \frac{m}{N}) + (1-\alpha)\frac{1}{N}
+\end{equation}
+
+where $P(C_i|A_{i-1})$ denotes the initial probability of each character being the target given that the previous letter is letter $A_i$, which can be found in the probability matrix in Figure \ref{fig:4}. Finally, $\alpha$ is set to $0.9$ in this study as proved to work well on simulations in \cite{mainsah2014utilizing}.
+
+
+\subsection{Methods 2: EEGNet + Simple Counting} \label{EEGNet}
+As the competitor of the above approach, this one utilizes a neural network called EEGNet introduced by \cite{lawhern2018eegnet}. This network has been verified to work well on many EEG-related problems, including the P300 speller (\cite{lee2020cnn}). Figure \ref{fig:5} shows the general architecture of the EEGNet. Different from SWLDA, EEGNet consumes the data of all users as the training input. The training data is concatenated together with each column representing a timestamp (spanning from $0$ to $800$ ms) and each row recording the EEG signal of a certain subject at a certain trail. The input first is processed by a 2D convolutional layer, which extracts the temporal features of the signals. Then, the output feature map is passed to a 2D depthwise convolutional layer, where the spatial features in each feature map are learned. Next, the third layer is a combination of multiple depthwise convolutional layers, which serve to summarize the temporal information in each feature map separately. Finally, the output will be processed by a pointwise convolutional layer to further combine the feature information and make the final classification decision.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.7\linewidth]{architecture.jpg}
+	\captionof{figure}{General architecture of EEGNet (Credit: \cite{lawhern2018eegnet})}
+	\label{fig:5}
+\end{figure}
+
+\vspace{-3mm}
+Depending on the input size, the size of kernels in EEGNet should be adapted correspondingly. Following the instruction in \cite{lawhern2018eegnet} and the input data size (see Section \ref{Data}), we implemented our EEGNet by \texttt{PyTorch}. The code is submitted with the report in the \texttt{Python} script called \texttt{eegnet\_utils.py}, and the detailed information about the model structure is summarized in Figure \ref{fig:6}, where each "Sequential" from top to the bottom corresponds to the convolutional layer from left to right. The final Linear layer is the classification layer at the rightmost of Figure \ref{fig:5}.
+
+\begin{figure}[H]
+\scriptsize
+\centering
+\begin{BVerbatim}
+	==========================================================================================
+	Layer (type:depth-idx)                   Output Shape              Param #
+	==========================================================================================
+	EEGNet                                   [4284, 2]                 --
+	+-Sequential: 1-1                        [4284, 64, 32, 207]       --
+	|    |-Conv2d: 2-1                       [4284, 64, 32, 207]       4,096
+	|    |-BatchNorm2d: 2-2                  [4284, 64, 32, 207]       128
+	+-Sequential: 1-2                        [4284, 256, 1, 51]        --
+	|    |-Conv2d: 2-3                       [4284, 256, 1, 207]       8,192
+	|    |-BatchNorm2d: 2-4                  [4284, 256, 1, 207]       512
+	|    |-ELU: 2-5                          [4284, 256, 1, 207]       --
+	|    |-AvgPool2d: 2-6                    [4284, 256, 1, 51]        --
+	|    |-Dropout: 2-7                      [4284, 256, 1, 51]        --
+	+-Sequential: 1-3                        [4284, 256, 1, 6]         --
+	|    |-Conv2d: 2-8                       [4284, 256, 1, 52]        4,096
+	|    |-Conv2d: 2-9                       [4284, 256, 1, 52]        65,536
+	|    |-BatchNorm2d: 2-10                 [4284, 256, 1, 52]        512
+	|    |-ELU: 2-11                         [4284, 256, 1, 52]        --
+	|    |-AvgPool2d: 2-12                   [4284, 256, 1, 6]         --
+	|    |-Dropout: 2-13                     [4284, 256, 1, 6]         --
+	+-Linear: 1-4                            [4284, 2]                 3,074
+	==========================================================================================
+	Total params: 86,146
+	Trainable params: 86,146
+	Non-trainable params: 0
+	Total mult-adds (Units.GIGABYTES): 139.03
+	==========================================================================================
+	Input size (MB): 112.96
+	Forward/backward pass size (MB): 34059.31
+	Params size (MB): 0.34
+	Estimated Total Size (MB): 34172.61
+	==========================================================================================
+\end{BVerbatim}
+\caption{The information summary of each layer in our EEGNet}
+\label{fig:6}
+\end{figure}
+
+\vspace{-3mm}
+Since this EEGNet classifier is essentially a discriminative model, it can not work with the Bayesian inference algorithm we used before. Instead, we choose to directly count the number of times each character is classified as the target. In other words, if the character is in the row or column which is classified as eliciting a P300 wave, it will be incremented by 1. Otherwise, the score remains unchanged. In this way, there is no probabilistic method included here. It is still possible to adapt the \textbf{language model} to carry on the information of prior letters, but it is unknown what value we should assign at the beginning. Therefore, we decide to abandon the \textbf{language model} we used before and initialize all the scores to $0$.
+
+\section{Experiment} \label{Experiment}
+\subsection{Data} \label{Data}
+The data we used is borrowed from \cite{mainsah2014utilizing} as we are granted permission by the original authors Prof. Mainsah and Prof. Collins at Duke University. The original studies were approved and financed by Duke University and East Tennessee State University. For the hardware side, the study used 32-channel electrode caps to collect the EEG data, and the open-sourced BCI2000 software suite to process the signals. The distribution of the electrode is visualized in Figure \ref{fig:7} (a). Also, the keyboard (see Figure \ref{fig:7} (b)) used by the study is a standard $8 \times 9$ keyword adopted in many P300 speller research.
+
+\vspace{-3mm}
+\begin{figure}[H]
+	\centering
+	\subfloat[\centering Brainmap of the headset electrodes]
+	{{\includegraphics[width=6.5cm]{brainmap.jpg} }}%
+	\qquad
+	\hspace{-8mm}
+	\subfloat[\centering Keyboard]
+	{{\includegraphics[width=6.5cm]{keyboard.jpg} }}%
+	\caption{Visual display of some hardware used in the experiment}
+	\label{fig:7}
+\end{figure}
+
+\vspace{-3mm}
+In our study, we chose to use the data from the 13 participants since there is some missing data in the other 6 participants. Each one is required to complete one training section and one testing section. In every section, participants are required to type 5 "words" (some words contain non-alphabetic characters), with a total number of 36 characters. To spell each character, participants need to go through 7 sequences, i.e., $7 \times (8 + 9) = 119$ trails. Thus, each one will generate $119 \times 36 = 4289$ trials for a training section or a testing section. Now let's look closely at each trial. There are 32 electrodes working to collect EEG signals at different locations simultaneously. The frequency is 256 Hz, so there are $256 \times 0.8 \approx 207$ observations in each time window. This explains why the number of one participant's input data is $4284$ in Figure \ref{fig:6}.\\
+
+\vspace{-3mm}
+For EEGNet, the only data preprocessing it needs is to concatenate every participant's data. As a comparison, the preprocessing procedure for SWLDA is much more complicated. Firstly, we need to keep in mind that the SWLDA classifier needs to be user-specific, so we will train the classifier for every participant. Secondly, we want the model to be light-weighted as possible, so only the signals from the 8 core electrodes highlighted by blue in Figure \ref{fig:7} (a) will be used (\cite{krusienski2006comparison}). Moreover, the $207$ observations are also too much for the model. We divide the time window into 15 equal parts with each one including 13 timestamps, and then we average each part. We repeat this process for all the 8 electrodes, and vertically concatenate these averaged data together, ending up with $15 \times 8 = 120$ features for one trial.
+
+\subsection{Setup} \label{Setup}
+The training of the SWLDA classifier is conducted on a 2021 Macbook Pro with an Intel i5 CPU. There are 13 participants, so we trained 13 classifiers individually with their own training data. The easy data preprocessing is offset by the complicated setup of the training configuration. We use the cross-entropy loss as the loss function (criterion), and Adam as the optimization algorithm (optimizer) with zero-initialized parameters and a fixed learning rate at $0.001$. We choose to train 100 epochs, where the data is divided into 32 batches for each iteration. The training of the EEGNet is no longer available on a normal CPU, so we turned to leveraging the T100 GPU powered by Google Colab. One thing we need to be very careful about is the unbalance of the data. The nature of the P300 waves requires the target signals to appear very rarely, leading to a relatively small portion of the target samples. As a result, we must assign a bigger weight to balance the effect from both classes when creating the loss function.\\
+
+\vspace{-3mm}
+Once the classifiers are well trained, we deploy them to test their performance on the given test data. We first check the signal-classification accuracy. Then, we integrate the classifiers with the rest of the algorithmic part to test the overall spelling accuracy. The results and analysis are presented in the next section.
+
+
+\section{Results} \label{Results}
+First, let's take a look at the training procedure of EEGNet in Figure \ref{fig:8}. Surprisingly, after the first epoch, the accuracy has already achieved over $80\%$, but the problem is that neither the train nor test accuracy appears to stabilize throughout the training procedure as they are fluctuating between $70\%$ and $85\%$. A similar trend happens again in the losses ("mean loss" refers to the average loss for each observation/trial) where training loss and test loss also fluctuate. However, training loss becomes even lower while the testing loss basically remains at the same level. This warns that the model may start to overfit the training data.
+
+\vspace{-3mm}
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.8\linewidth]{eegnet_training.png}
+	\captionof{figure}{Loss and accuracy at each epoch during the training of EEGNet}
+	\label{fig:8}
+\end{figure}
+
+\vspace{-3mm}
+As we mentioned before, it is quite necessary to balance the effect of the two classes since the target class is the absolute minority in the original dataset. Before we fix this problem, the model is trained to assign every input to the non-target class. This is intuitive since there are around $82\%$ data in the training set belonging to non-targets. Always returning the decision as the non-target class can automatically get an accuracy of $82\%$. However, the classification accuracy does not reflect the whole story. Failing to detect any target signals makes the EEGNet useless for the overall algorithmic part. After we fixed this problem, we derived a working EEGNet with the training procedure shown in Figure  \ref{fig:8}. We saved the model with the best test (validation) accuracy as the checkpoint. Although the checkpoint model is sufficient to use, we must rethink why the accuracy has such a significant fluctuation. Again, maybe only measuring the accuracy is not enough, we need to investigate other measurements, such as recall and precision.\\
+
+\vspace{-3mm}
+Now it is time to compare how well the two methods are performed on the test data. Figure \ref{fig:9} compares the signal classification accuracy. The red dotted line and blue dotted line mark the averaged accuracy for SWLDA and EEGNet correspondingly. SWLDA classifier wins by a narrow margin of $4\%$. In each method, the variation among all 13 participants is very small, so comparing the average level is enough. For the comparison of the spelling accuracy, the gap becomes more obvious, the gap not only exists between the methods but also exists among the participants. This time, the average spelling accuracy of the SWLDA-based algorithm (method 1) is around $17\%$ ahead of the EEG-based algorithm (method 2) although both are not satisfactory as both are lower than $80\%$. However, if we look at each participant's performance, we can notice that some of them have a way higher spelling accuracy than others. This observation is very important for us to interpret the results as this verifies the fact that reactions to the stimulus are very different among participants. As a result, there is no wonder that the SWLDA-based algorithm (user-specific) can perform better than the EEGNet-based algorithm (general).
+
+\vspace{-3mm}
+\begin{figure}[H]
+	\centering
+	\subfloat[\centering Signal classification accuracy]
+	{{\includegraphics[width=8cm]{signal_clf_acc.png} }}%
+	\qquad
+	\hspace{-8mm}
+	\subfloat[\centering Spelling accuracy]
+	{{\includegraphics[width=8cm]{spelling_acc.png} }}%
+	\caption{Performances of the two models on test data}
+	\label{fig:9}
+\end{figure}
+
+\vspace{-3mm}
+Another interesting question is: why the small gap ($4\%$) in signal classification accuracy is enlarged to $17\%$ in spelling accuracy? We believe this can be attributed to the use of the 2-gram \textbf{language model} and the essence of the generative probabilistic model. Firstly, when we probe into the wrong prediction made by EEGNet, we notice that a lot of them are nearby characters around the desired one. This is a very common mistake due to the noise and the inevitable pattern that participants are prone to be distracted by the flash of the nearby characters. The 2-gram language model can eliminate the problem to some extent since it utilizes the information of the previously typed letter, which can give some initial advantage to a letter with a higher probability of being the next desired character.\\
+
+\vspace{-3mm}
+Even though the SWLDA-based algorithm seems to be the better one (after all, it remains as the state-of-the-art method for a long time till now), we should not ignore the upsides and bright potentials of the EEGNet. The biggest advantage is that it does show the generalizability across different participants. It is very likely a higher accuracy can be achieved by feeding with more data and equipping with better training setups. In fact, we should be aware that the pre-training process is very tedious for the users. If we can bypass it with a given general classifier, it will make the P300 speller more user-friendly and easy to use. Even if the original EEGNet is not good work, we can leverage transfer learning to adapt the original one to be more user-specific, which is still better than training a SWLDA classifier for each user from scratch.
+
+\vspace{-5mm}
+\section{Conclusion} \label{Conclusion}
+\vspace{-3mm}
+In this study, we successfully implemented two representative but completely different algorithms in P300 spellers. Method 1 (SWLDA classifier and Bayesian inference) represents the generative probabilistic model, whereas method 2 (EEGNet classifier and simple counting) represents the discriminative neural network. By comparing their performance on real data, the SWLDA-based method defends its title as the state-of-the-art solution, but we should not forget that the \textbf{language model} we added to it also enhances its performance. On the other hand, the result that the EEG-based method fell behind doesn't hide its value and potential. We have to admit that we didn't maximize the power of this deep neural network as the training setup is not optimized, but this also reflects how promising if it can be improved with more data and better training configuration since it already shows a convincing sign of generalizability.\\
+
+\vspace{-3mm}
+We learned a lot from this final project. The implementation of the two methods undoubtedly enhances our coding skills, but more importantly, consolidates my comprehension of the two methods. If reading papers can gain half of the knowledge, then implementing the algorithms and conducting the experiments are the necessary conditions to cover the remaining half. Moreover, we benefit a lot from the cycle of "test run-analysis-debug" since it leads us to a deeper understanding of the phenomenon we observed whereas sometimes it ends up with some fixed bugs.\\
+
+\vspace{-3mm}
+The only pity here is that we didn't find an optimal joint between the P300 speller and natural language processing in this project. I started my research in P300 speller and ECE 684 at the same time, and previously I thought there should be some amazing topics between the two where I could experiment with some advanced NLP techniques such as RNN, attention, and transformer on the application of P300 spellers, but later I was demoralized by the depressing fact that current P300 spellers only works by spelling one character at a time. This makes it impossible to apply any word-based language models. In the end, the only available language model available to use is the n-gram, which we learned at the beginning of this course. Although it is rather simple, it turns out that it works perfectly well on this problem. In addition, designing and training EEGNet serves well as an alternative practice for me to build a deep neural network. It is not a pure language model, but it shares the common designing and training process with those DL-based language models.\\
+
+\vspace{-3mm}
+Speaking of future work, we are going to further improve the performance of the EEGNet-based algorithm. It is also interesting to try to enhance it with some language models as we did in the SWLDA-based algorithm. The key goal here and for the future is to keep updating the EEGNet until it is good enough to challenge the title of "state-of-the-art". Another area that could be the next step to explore is to fundamentally update the P300 speller from spelling individual letters to typing continuous sentences. Only in this way can we open great possibilities to apply some powerful language models and further improve the capability of the speller.
+
+\bibliographystyle{unsrtnat}
+{\small \bibliography{references}}
+\end{document}

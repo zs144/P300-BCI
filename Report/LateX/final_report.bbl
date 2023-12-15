@@ -1,0 +1,76 @@
+\begin{thebibliography}{9}
+\providecommand{\natexlab}[1]{#1}
+\providecommand{\url}[1]{\texttt{#1}}
+\expandafter\ifx\csname urlstyle\endcsname\relax
+  \providecommand{\doi}[1]{doi: #1}\else
+  \providecommand{\doi}{doi: \begingroup \urlstyle{rm}\Url}\fi
+
+\bibitem[Moghimi et~al.(2013)Moghimi, Kushki, Marie~Guerguerian, and
+  Chau]{moghimi2013review}
+Saba Moghimi, Azadeh Kushki, Anne Marie~Guerguerian, and Tom Chau.
+\newblock A review of eeg-based brain-computer interfaces as access pathways
+  for individuals with severe disabilities.
+\newblock \emph{Assistive Technology}, 25\penalty0 (2):\penalty0 99--110, 2013.
+
+\bibitem[Farwell and Donchin(1988)]{farwell1988talking}
+Lawrence~Ashley Farwell and Emanuel Donchin.
+\newblock Talking off the top of your head: toward a mental prosthesis
+  utilizing event-related brain potentials.
+\newblock \emph{Electroencephalography and clinical Neurophysiology},
+  70\penalty0 (6):\penalty0 510--523, 1988.
+
+\bibitem[Brunner et~al.(2011)Brunner, Ritaccio, Emrich, Bischof, and
+  Schalk]{brunner2011rapid}
+Peter Brunner, Anthony~L Ritaccio, Joseph~F Emrich, Horst Bischof, and Gerwin
+  Schalk.
+\newblock Rapid communication with a “p300” matrix speller using
+  electrocorticographic signals (ecog).
+\newblock \emph{Frontiers in neuroscience}, 5:\penalty0 5, 2011.
+
+\bibitem[Elshout(2009)]{elshout2009review}
+JA~Elshout.
+\newblock Review of brain-computer interfaces based on the p300 evoked
+  potential.
+\newblock Master's thesis, 2009.
+
+\bibitem[Fang et~al.(2021)Fang, Song, Niu, Le, Zhang, Zhang, Zhan, Wang, Li,
+  Lin, et~al.]{fang2021recent}
+Tao Fang, Zuoting Song, Lan Niu, Song Le, Yuan Zhang, Xueze Zhang, Gege Zhan,
+  Shouyan Wang, Hui Li, Yifang Lin, et~al.
+\newblock Recent advances of p300 speller paradigms and algorithms.
+\newblock In \emph{2021 9th International Winter Conference on Brain-Computer
+  Interface (BCI)}, pages 1--6. IEEE, 2021.
+
+\bibitem[Mainsah et~al.(2014)Mainsah, Colwell, Collins, and
+  Throckmorton]{mainsah2014utilizing}
+Boyla~O Mainsah, Kenneth~A Colwell, Leslie~M Collins, and Chandra~S
+  Throckmorton.
+\newblock Utilizing a language model to improve online dynamic data collection
+  in p300 spellers.
+\newblock \emph{IEEE Transactions on Neural Systems and Rehabilitation
+  Engineering}, 22\penalty0 (4):\penalty0 837--846, 2014.
+
+\bibitem[Lawhern et~al.(2018)Lawhern, Solon, Waytowich, Gordon, Hung, and
+  Lance]{lawhern2018eegnet}
+Vernon~J Lawhern, Amelia~J Solon, Nicholas~R Waytowich, Stephen~M Gordon,
+  Chou~P Hung, and Brent~J Lance.
+\newblock Eegnet: a compact convolutional neural network for eeg-based
+  brain--computer interfaces.
+\newblock \emph{Journal of neural engineering}, 15\penalty0 (5):\penalty0
+  056013, 2018.
+
+\bibitem[Lee et~al.(2020)Lee, Won, Kwon, Jun, and Ahn]{lee2020cnn}
+Jongmin Lee, Kyungho Won, Moonyoung Kwon, Sung~Chan Jun, and Minkyu Ahn.
+\newblock Cnn with large data achieves true zero-training in online p300
+  brain-computer interface.
+\newblock \emph{IEEE Access}, 8:\penalty0 74385--74400, 2020.
+
+\bibitem[Krusienski et~al.(2006)Krusienski, Sellers, Cabestaing, Bayoudh,
+  McFarland, Vaughan, and Wolpaw]{krusienski2006comparison}
+Dean~J Krusienski, Eric~W Sellers, Fran{\c{c}}ois Cabestaing, Sabri Bayoudh,
+  Dennis~J McFarland, Theresa~M Vaughan, and Jonathan~R Wolpaw.
+\newblock A comparison of classification techniques for the p300 speller.
+\newblock \emph{Journal of neural engineering}, 3\penalty0 (4):\penalty0 299,
+  2006.
+
+\end{thebibliography}
