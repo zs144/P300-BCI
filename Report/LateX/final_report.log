@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.25 (TeX Live 2023) (preloaded format=pdflatex 2023.12.7)  15 DEC 2023 15:37
+This is pdfTeX, Version 3.141592653-2.6-1.40.25 (TeX Live 2023) (preloaded format=pdflatex 2023.12.7)  16 DEC 2023 18:00
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -920,24 +920,24 @@ Package: xfp 2023-02-02 L3 Floating point unit
 (./final_report.aux)
 \openout1 = `final_report.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 70.
-LaTeX Font Info:    ... okay on input line 70.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 70.
-LaTeX Font Info:    ... okay on input line 70.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 70.
-LaTeX Font Info:    ... okay on input line 70.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 70.
-LaTeX Font Info:    ... okay on input line 70.
-LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 70.
-LaTeX Font Info:    ... okay on input line 70.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 70.
-LaTeX Font Info:    ... okay on input line 70.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 70.
-LaTeX Font Info:    ... okay on input line 70.
-LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 70.
-LaTeX Font Info:    ... okay on input line 70.
-LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 70.
-LaTeX Font Info:    ... okay on input line 70.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 69.
+LaTeX Font Info:    ... okay on input line 69.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 69.
+LaTeX Font Info:    ... okay on input line 69.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 69.
+LaTeX Font Info:    ... okay on input line 69.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 69.
+LaTeX Font Info:    ... okay on input line 69.
+LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 69.
+LaTeX Font Info:    ... okay on input line 69.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 69.
+LaTeX Font Info:    ... okay on input line 69.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 69.
+LaTeX Font Info:    ... okay on input line 69.
+LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 69.
+LaTeX Font Info:    ... okay on input line 69.
+LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 69.
+LaTeX Font Info:    ... okay on input line 69.
 
 *geometry* driver: auto-detecting
 *geometry* detected driver: pdftex
@@ -1005,24 +1005,24 @@ LaTeX Font Info:    ... okay on input line 70.
 * \@reversemarginfalse
 * (1in=72.27pt=25.4mm, 1cm=28.453pt)
 
-Package hyperref Info: Link coloring OFF on input line 70.
+Package hyperref Info: Link coloring OFF on input line 69.
 (./final_report.out) (./final_report.out)
 \@outlinefile=\write5
 \openout5 = `final_report.out'.
 
-LaTeX Info: Redefining \microtypecontext on input line 70.
-Package microtype Info: Applying patch `item' on input line 70.
-Package microtype Info: Applying patch `toc' on input line 70.
-Package microtype Info: Applying patch `eqnum' on input line 70.
-Package microtype Info: Applying patch `footnote' on input line 70.
-Package microtype Info: Applying patch `verbatim' on input line 70.
+LaTeX Info: Redefining \microtypecontext on input line 69.
+Package microtype Info: Applying patch `item' on input line 69.
+Package microtype Info: Applying patch `toc' on input line 69.
+Package microtype Info: Applying patch `eqnum' on input line 69.
+Package microtype Info: Applying patch `footnote' on input line 69.
+Package microtype Info: Applying patch `verbatim' on input line 69.
 Package microtype Info: Generating PDF output.
 Package microtype Info: Character protrusion enabled (level 2).
 Package microtype Info: Using default protrusion set `alltext'.
 Package microtype Info: Automatic font expansion enabled (level 2),
 (microtype)             stretch: 20, shrink: 20, step: 1, non-selected.
 Package microtype Info: Using default expansion set `alltext-nott'.
-LaTeX Info: Redefining \showhyphens on input line 70.
+LaTeX Info: Redefining \showhyphens on input line 69.
 Package microtype Info: No adjustment of tracking.
 Package microtype Info: No adjustment of interword spacing.
 Package microtype Info: No adjustment of character kerning.
@@ -1061,7 +1061,7 @@ Package caption Info: End \AtBeginDocument code.
 File: mt-cmr.cfg 2013/05/19 v2.2 microtype config. file: Computer Modern Roman 
 (RS)
 )
-LaTeX Font Info:    Trying to load font information for U+msa on input line 72.
+LaTeX Font Info:    Trying to load font information for U+msa on input line 71.
 
 
 (/usr/local/texlive/2023/texmf-dist/tex/latex/amsfonts/umsa.fd
@@ -1070,7 +1070,7 @@ File: umsa.fd 2013/01/14 v3.01 AMS symbols A
 (/usr/local/texlive/2023/texmf-dist/tex/latex/microtype/mt-msa.cfg
 File: mt-msa.cfg 2006/02/04 v1.1 microtype config. file: AMS symbols (a) (RS)
 )
-LaTeX Font Info:    Trying to load font information for U+msb on input line 72.
+LaTeX Font Info:    Trying to load font information for U+msb on input line 71.
 
 
 (/usr/local/texlive/2023/texmf-dist/tex/latex/amsfonts/umsb.fd
@@ -1080,7 +1080,7 @@ File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 File: mt-msb.cfg 2005/06/01 v1.0 microtype config. file: AMS symbols (b) (RS)
 )
 LaTeX Font Info:    Trying to load font information for T1+cmtt on input line 7
-2.
+1.
 
 (/usr/local/texlive/2023/texmf-dist/tex/latex/base/t1cmtt.fd
 File: t1cmtt.fd 2022/07/10 v2.5l Standard LaTeX font definitions
@@ -1090,7 +1090,7 @@ Package microtype Info: Loading generic protrusion settings for font family
 (microtype)             For optimal results, create family-specific settings.
 (microtype)             See the microtype manual for details.
 
-Underfull \hbox (badness 10000) in paragraph at lines 85--86
+Underfull \hbox (badness 10000) in paragraph at lines 84--85
 
  []
 
@@ -1103,258 +1103,144 @@ al/texlive/2023/texmf-dist/fonts/enc/dvips/base/8r.enc}{/usr/local/texlive/2023
 <../images//waves.png, id=69, 405.4347pt x 297.0297pt>
 File: ../images//waves.png Graphic file (type png)
 <use ../images//waves.png>
-Package pdftex.def Info: ../images//waves.png  used on input line 93.
+Package pdftex.def Info: ../images//waves.png  used on input line 92.
 (pdftex.def)             Requested size: 234.87749pt x 172.07791pt.
 
 
 Package amsmath Warning: Foreign command \atopwithdelims;
 (amsmath)                \frac or \genfrac should be used instead
-(amsmath)                 on input line 100.
+(amsmath)                 on input line 99.
 
 
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
-
-
-Package fancyhdr Warning: \headheight is too small (14.0pt): 
-(fancyhdr)                Make it at least 22.37994pt, for example:
-(fancyhdr)                \setlength{\headheight}{22.37994pt}.
-(fancyhdr)                You might also make \topmargin smaller to compensate:
-
-(fancyhdr)                \addtolength{\topmargin}{-8.37994pt}.
-
-[2 <../images//waves.png>]
+ [2 <../images//waves.png>]
 <../images//overview.png, id=80, 1011.78pt x 421.575pt>
 File: ../images//overview.png Graphic file (type png)
 <use ../images//overview.png>
-Package pdftex.def Info: ../images//overview.png  used on input line 108.
+Package pdftex.def Info: ../images//overview.png  used on input line 107.
 (pdftex.def)             Requested size: 328.82706pt x 137.01024pt.
 
-Underfull \hbox (badness 10000) in paragraph at lines 117--118
+Underfull \hbox (badness 10000) in paragraph at lines 116--117
 
  []
 
 
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
-
-
-Package fancyhdr Warning: \headheight is too small (14.0pt): 
-(fancyhdr)                Make it at least 22.37994pt, for example:
-(fancyhdr)                \setlength{\headheight}{22.37994pt}.
-(fancyhdr)                You might also make \topmargin smaller to compensate:
-
-(fancyhdr)                \addtolength{\topmargin}{-8.37994pt}.
-
-[3 <../images//overview.png>]
+ [3 <../images//overview.png>]
 <../images//framework.jpg, id=110, 1054.94125pt x 360.34625pt>
 File: ../images//framework.jpg Graphic file (type jpg)
 <use ../images//framework.jpg>
-Package pdftex.def Info: ../images//framework.jpg  used on input line 129.
+Package pdftex.def Info: ../images//framework.jpg  used on input line 128.
 (pdftex.def)             Requested size: 469.75499pt x 160.45529pt.
 
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
-
-
-Package fancyhdr Warning: \headheight is too small (14.0pt): 
-(fancyhdr)                Make it at least 22.37994pt, for example:
-(fancyhdr)                \setlength{\headheight}{22.37994pt}.
-(fancyhdr)                You might also make \topmargin smaller to compensate:
-
-(fancyhdr)                \addtolength{\topmargin}{-8.37994pt}.
-
-[4]
-Underfull \hbox (badness 10000) in paragraph at lines 135--136
+ [4]
+Underfull \hbox (badness 10000) in paragraph at lines 134--135
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 143--144
+Underfull \hbox (badness 10000) in paragraph at lines 142--143
 
  []
-
-
-Package fancyhdr Warning: \headheight is too small (14.0pt): 
-(fancyhdr)                Make it at least 22.37994pt, for example:
-(fancyhdr)                \setlength{\headheight}{22.37994pt}.
-(fancyhdr)                You might also make \topmargin smaller to compensate:
-
-(fancyhdr)                \addtolength{\topmargin}{-8.37994pt}.
 
 [5 <../images//framework.jpg>]
 <../images//2gram.png, id=131, 390.258pt x 328.8285pt>
 File: ../images//2gram.png Graphic file (type png)
 <use ../images//2gram.png>
-Package pdftex.def Info: ../images//2gram.png  used on input line 174.
+Package pdftex.def Info: ../images//2gram.png  used on input line 173.
 (pdftex.def)             Requested size: 234.87749pt x 197.90573pt.
-
-
-Package fancyhdr Warning: \headheight is too small (14.0pt): 
-(fancyhdr)                Make it at least 22.37994pt, for example:
-(fancyhdr)                \setlength{\headheight}{22.37994pt}.
-(fancyhdr)                You might also make \topmargin smaller to compensate:
-
-(fancyhdr)                \addtolength{\topmargin}{-8.37994pt}.
-
-[6]
+ [6]
 <../images//architecture.jpg, id=153, 611.28375pt x 339.2675pt>
 File: ../images//architecture.jpg Graphic file (type jpg)
 <use ../images//architecture.jpg>
-Package pdftex.def Info: ../images//architecture.jpg  used on input line 194.
+Package pdftex.def Info: ../images//architecture.jpg  used on input line 193.
 (pdftex.def)             Requested size: 328.82706pt x 182.49767pt.
-
-
-Package fancyhdr Warning: \headheight is too small (14.0pt): 
-(fancyhdr)                Make it at least 22.37994pt, for example:
-(fancyhdr)                \setlength{\headheight}{22.37994pt}.
-(fancyhdr)                You might also make \topmargin smaller to compensate:
-
-(fancyhdr)                \addtolength{\topmargin}{-8.37994pt}.
-
-[7 <../images//2gram.png>]
+ [7 <../images//2gram.png>]
 Underfull \vbox (badness 2285) has occurred while \output is active []
 
-
-
-Package fancyhdr Warning: \headheight is too small (14.0pt): 
-(fancyhdr)                Make it at least 22.37994pt, for example:
-(fancyhdr)                \setlength{\headheight}{22.37994pt}.
-(fancyhdr)                You might also make \topmargin smaller to compensate:
-
-(fancyhdr)                \addtolength{\topmargin}{-8.37994pt}.
-
-[8 <../images//architecture.jpg>]
+ [8 <../images//architecture.jpg>]
 <../images//brainmap.jpg, id=184, 344.0052pt x 330.9966pt>
 File: ../images//brainmap.jpg Graphic file (type jpg)
 <use ../images//brainmap.jpg>
-Package pdftex.def Info: ../images//brainmap.jpg  used on input line 254.
+Package pdftex.def Info: ../images//brainmap.jpg  used on input line 253.
 (pdftex.def)             Requested size: 184.9429pt x 177.9476pt.
 <../images//keyboard.jpg, id=185, 300.6432pt x 242.8272pt>
 File: ../images//keyboard.jpg Graphic file (type jpg)
 <use ../images//keyboard.jpg>
-Package pdftex.def Info: ../images//keyboard.jpg  used on input line 258.
+Package pdftex.def Info: ../images//keyboard.jpg  used on input line 257.
 (pdftex.def)             Requested size: 184.9429pt x 149.37674pt.
 
-Underfull \hbox (badness 10000) in paragraph at lines 264--265
+Underfull \hbox (badness 10000) in paragraph at lines 263--264
 
  []
 
-
-Package fancyhdr Warning: \headheight is too small (14.0pt): 
-(fancyhdr)                Make it at least 22.37994pt, for example:
-(fancyhdr)                \setlength{\headheight}{22.37994pt}.
-(fancyhdr)                You might also make \topmargin smaller to compensate:
-
-(fancyhdr)                \addtolength{\topmargin}{-8.37994pt}.
-
 [9 <../images//brainmap.jpg> <../images//keyboard.jpg>]
-Underfull \hbox (badness 10000) in paragraph at lines 270--271
+Underfull \hbox (badness 10000) in paragraph at lines 269--270
 
  []
 
 <../images//eegnet_training.png, id=198, 597.6729pt x 284.0211pt>
 File: ../images//eegnet_training.png Graphic file (type png)
 <use ../images//eegnet_training.png>
-Package pdftex.def Info: ../images//eegnet_training.png  used on input line 282
+Package pdftex.def Info: ../images//eegnet_training.png  used on input line 281
 .
 (pdftex.def)             Requested size: 375.80542pt x 178.58752pt.
 
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
-
-
-Package fancyhdr Warning: \headheight is too small (14.0pt): 
-(fancyhdr)                Make it at least 22.37994pt, for example:
-(fancyhdr)                \setlength{\headheight}{22.37994pt}.
-(fancyhdr)                You might also make \topmargin smaller to compensate:
-
-(fancyhdr)                \addtolength{\topmargin}{-8.37994pt}.
-
-[10]
-Underfull \hbox (badness 10000) in paragraph at lines 288--289
+ [10]
+Underfull \hbox (badness 10000) in paragraph at lines 287--288
 
  []
 
 <../images//signal_clf_acc.png, id=208, 412.6617pt x 328.8285pt>
 File: ../images//signal_clf_acc.png Graphic file (type png)
 <use ../images//signal_clf_acc.png>
-Package pdftex.def Info: ../images//signal_clf_acc.png  used on input line 297.
+Package pdftex.def Info: ../images//signal_clf_acc.png  used on input line 296.
 
 (pdftex.def)             Requested size: 227.62204pt x 181.37805pt.
 <../images//spelling_acc.png, id=209, 412.6617pt x 328.8285pt>
 File: ../images//spelling_acc.png Graphic file (type png)
 <use ../images//spelling_acc.png>
-Package pdftex.def Info: ../images//spelling_acc.png  used on input line 301.
+Package pdftex.def Info: ../images//spelling_acc.png  used on input line 300.
 (pdftex.def)             Requested size: 227.62204pt x 181.37805pt.
 
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
-
-
-Package fancyhdr Warning: \headheight is too small (14.0pt): 
-(fancyhdr)                Make it at least 22.37994pt, for example:
-(fancyhdr)                \setlength{\headheight}{22.37994pt}.
-(fancyhdr)                You might also make \topmargin smaller to compensate:
-
-(fancyhdr)                \addtolength{\topmargin}{-8.37994pt}.
-
-[11 <../images//eegnet_training.png>]
-Underfull \hbox (badness 10000) in paragraph at lines 307--308
+ [11 <../images//eegnet_training.png>]
+Underfull \hbox (badness 10000) in paragraph at lines 306--307
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 315--316
+Underfull \hbox (badness 10000) in paragraph at lines 314--315
 
  []
-
-
-Package fancyhdr Warning: \headheight is too small (14.0pt): 
-(fancyhdr)                Make it at least 22.37994pt, for example:
-(fancyhdr)                \setlength{\headheight}{22.37994pt}.
-(fancyhdr)                You might also make \topmargin smaller to compensate:
-
-(fancyhdr)                \addtolength{\topmargin}{-8.37994pt}.
 
 [12 <../images//signal_clf_acc.png> <../images//spelling_acc.png>]
-Underfull \hbox (badness 10000) in paragraph at lines 318--319
+Underfull \hbox (badness 10000) in paragraph at lines 317--318
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 321--322
+Underfull \hbox (badness 10000) in paragraph at lines 320--321
 
  []
 
-(./final_report.bbl
-
-Package fancyhdr Warning: \headheight is too small (14.0pt): 
-(fancyhdr)                Make it at least 22.37994pt, for example:
-(fancyhdr)                \setlength{\headheight}{22.37994pt}.
-(fancyhdr)                You might also make \topmargin smaller to compensate:
-
-(fancyhdr)                \addtolength{\topmargin}{-8.37994pt}.
-
-[13])
-
-Package fancyhdr Warning: \headheight is too small (14.0pt): 
-(fancyhdr)                Make it at least 22.37994pt, for example:
-(fancyhdr)                \setlength{\headheight}{22.37994pt}.
-(fancyhdr)                You might also make \topmargin smaller to compensate:
-
-(fancyhdr)                \addtolength{\topmargin}{-8.37994pt}.
-
-[14] (./final_report.aux)
+(./final_report.bbl [13]) [14] (./final_report.aux)
 Package rerunfilecheck Info: File `final_report.out' has not changed.
 (rerunfilecheck)             Checksum: 114E431327AD1DC419412DA765A2F7BC;1781.
  ) 
 Here is how much of TeX's memory you used:
- 29585 strings out of 476025
- 541049 string characters out of 5790017
+ 29579 strings out of 476025
+ 540995 string characters out of 5790017
  1864388 words of memory out of 5000000
- 49121 multiletter control sequences out of 15000+600000
- 587144 words of font info for 280 fonts, out of 8000000 for 9000
+ 49120 multiletter control sequences out of 15000+600000
+ 586920 words of font info for 277 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  83i,14n,117p,1757b,627s stack positions out of 10000i,1000n,20000p,200000b,200000s
 </usr/local/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb
@@ -1374,7 +1260,7 @@ exlive/2023/texmf-dist/fonts/type1/urw/times/utmb8a.pfb></usr/local/texlive/202
 3/texmf-dist/fonts/type1/urw/times/utmbi8a.pfb></usr/local/texlive/2023/texmf-d
 ist/fonts/type1/urw/times/utmr8a.pfb></usr/local/texlive/2023/texmf-dist/fonts/
 type1/urw/times/utmri8a.pfb>
-Output written on final_report.pdf (14 pages, 845162 bytes).
+Output written on final_report.pdf (14 pages, 843933 bytes).
 PDF statistics:
  323 PDF objects out of 1000 (max. 8388607)
  251 compressed objects within 3 object streams

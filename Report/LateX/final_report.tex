@@ -40,12 +40,11 @@
 
 \graphicspath{{../images/}} % NOTE: Put all your figures in this directory.
 
-\title{Final Report for Independent Study in P300 Spellers: Understanding the Progress and Comparing Some Representative Algorithms}
+\title{Final Report for Independent Study In P300 Spellers: Understanding the Subject Progress and Investigating Some Representative Solutions}
 
 \author{
 	Zion Sheng (NetID: zs144)\\
-	Department of ECE\\
-	Duke University\\
+	Department of ECE, Duke University\\
 	Durham, NC 27708 \\
 	\texttt{zion.sheng@duke.edu} \\
 }
@@ -54,7 +53,7 @@
 
 % Uncomment to override  the `A preprint' in the header
 % \renewcommand{\headeright}{Technical Report}
-\renewcommand{\undertitle}{ECE899 (Indepedent Study) Final Report}
+\renewcommand{\undertitle}{Supervisor: Prof. Leslie Collins, Prof. Boyla Mainsah}
 % \renewcommand{\shorttitle}{\textit{arXiv} Template}
 
 %%% Add PDF metadata to help others organize their library
@@ -64,20 +63,20 @@
 	pdftitle={A template for the arxiv style},
 	pdfsubject={machine learning},
 	pdfauthor={Zion Sheng},
-	pdfkeywords={machine learning, natural language processing, deep learning, n-gram \textbf{language model}, brain-computer interface, P300 speller},
+	pdfkeywords={EEG signal processing, brain-computer interface, P300 speller, machine learning, convolutional neural network, n-gram language model},
 }
 
 \begin{document}
 \maketitle
 
-\vspace{-5mm}
+\vspace{-10mm}
 \begin{abstract}
-	Brain-computer interface (BCI) is a broad collection of machines that can facilitate the interaction between human brains and external devices. Generally, each type of BCI is designed to work on a specific task, and the P300 speller is the one used for word spelling by utilizing a special electroencephalogram (EEG) signal called the P300 waves. The intention to type a certain character can be the condition to elicit the P300 waves, so the core component of the P300 speller is essentially a classifier. Among all the traditional classification algorithms, many empirical studies have shown that stepwise linear discriminant analysis (SWLDA) can reach state-of-the-art performance, and it can be further enhanced by some language models. On the other hand, with the emergence of many miracle deep learning techniques, recent studies have turned to exploring the possible combination of deep learning models and the P300 speller. In this paper, we are going to investigate two competitive frameworks, one is the SWLDA combined with an n-gram language model, and the other is EEGNet, a novel neural network-based solution. The two methods are tested on the real data from 17 participants on online spelling tasks. Although the results demonstrate that EEGNet has undoubtedly better generalizability than SWLDA, the latter achieves a higher average spelling accuracy, which again defends its title.
+	Brain-computer interface (BCI) is a broad collection of machines that can facilitate the interaction between human brains and external devices. Generally, each type of BCI is designed to work on a specific task, where the P300 speller can help users in spelling. By classifying whether received electroencephalogram (EEG) signals contain a special event-related potentials (ERP) called P300, it can infer the user's desired character. Among all the traditional classification algorithms, stepwise linear discriminant analysis (SWLDA) reaches the state-of-the-art performance, and it can be further enhanced by some language models. Nevertheless, with the emergence of many powerful deep learning techniques, recent studies have turned to exploring the applications of deep neural networks on P300 spellers. This report tries to deliver a concise overview of the freshly-finished independent study. It will start from the problem description and subject progress, and then proceed to elaborate on the two competitive solutions: one is SWLDA combined with an 2-gram language model, and the other is EEGNet, a convolutional neural network tailored for P300 BCIs. The two methods are implemented and tested on the real data from 17 participants. Results demonstrate that EEGNet has better generalizability that is unprecedented in SWLDA, but the latter still achieves a higher spelling accuracy on average.
 \end{abstract}
 
 
 % keywords can be removed
-\keywords{machine learning, natural language processing, deep learning, n-gram language model, brain-computer interface, P300 speller}
+\keywords{EEG signal processing, brain-computer interface, P300 speller, machine learning, convolutional neural network, n-gram \textbf{language model}}
 
 
 \section{Problem Description} \label{Description}
