@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.22 (TeX Live 2021) (preloaded format=pdflatex 2021.7.21)  17 DEC 2023 09:42
+This is pdfTeX, Version 3.141592653-2.6-1.40.22 (TeX Live 2021) (preloaded format=pdflatex 2021.7.21)  18 DEC 2023 00:03
 entering extended mode
  \write18 enabled.
  %&-line parsing enabled.
@@ -1092,7 +1092,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 84--85
 
 
 {/usr/local/texlive/2021/texmf-var/fonts/map/pdftex/updmap/pdftex.map}]
-<../images//waves.png, id=69, 405.4347pt x 297.0297pt>
+<../images//waves.png, id=81, 405.4347pt x 297.0297pt>
 File: ../images//waves.png Graphic file (type png)
 <use ../images//waves.png>
 Package pdftex.def Info: ../images//waves.png  used on input line 92.
@@ -1104,7 +1104,7 @@ Package amsmath Warning: Foreign command \atopwithdelims;
 (amsmath)                 on input line 99.
 
 [2 <../images//waves.png>]
-<../images//overview.png, id=80, 1011.78pt x 421.575pt>
+<../images//overview.png, id=92, 1011.78pt x 421.575pt>
 File: ../images//overview.png Graphic file (type png)
 <use ../images//overview.png>
 Package pdftex.def Info: ../images//overview.png  used on input line 107.
@@ -1115,7 +1115,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 117--118
  []
 
 [3 <../images//overview.png>]
-<../images//framework.jpg, id=110, 1054.94125pt x 360.34625pt>
+<../images//framework.jpg, id=122, 1054.94125pt x 360.34625pt>
 File: ../images//framework.jpg Graphic file (type jpg)
 <use ../images//framework.jpg>
 Package pdftex.def Info: ../images//framework.jpg  used on input line 129.
@@ -1131,24 +1131,24 @@ Underfull \hbox (badness 10000) in paragraph at lines 143--144
  []
 
 [5]
-<../images//2gram.png, id=137, 390.258pt x 328.8285pt>
+<../images//2gram.png, id=149, 390.258pt x 328.8285pt>
 File: ../images//2gram.png Graphic file (type png)
 <use ../images//2gram.png>
 Package pdftex.def Info: ../images//2gram.png  used on input line 174.
 (pdftex.def)             Requested size: 234.87749pt x 197.90573pt.
  [6 <../images//2gram.png>]
-<../images//architecture.jpg, id=154, 611.28375pt x 339.2675pt>
+<../images//architecture.jpg, id=166, 611.28375pt x 339.2675pt>
 File: ../images//architecture.jpg Graphic file (type jpg)
 <use ../images//architecture.jpg>
 Package pdftex.def Info: ../images//architecture.jpg  used on input line 194.
 (pdftex.def)             Requested size: 328.82706pt x 182.49767pt.
  [7 <../images//architecture.jpg>]
-<../images//brainmap.jpg, id=178, 344.0052pt x 330.9966pt>
+<../images//brainmap.jpg, id=190, 344.0052pt x 330.9966pt>
 File: ../images//brainmap.jpg Graphic file (type jpg)
 <use ../images//brainmap.jpg>
 Package pdftex.def Info: ../images//brainmap.jpg  used on input line 254.
 (pdftex.def)             Requested size: 184.9429pt x 177.9476pt.
-<../images//keyboard.jpg, id=179, 300.6432pt x 242.8272pt>
+<../images//keyboard.jpg, id=191, 300.6432pt x 242.8272pt>
 File: ../images//keyboard.jpg Graphic file (type jpg)
 <use ../images//keyboard.jpg>
 Package pdftex.def Info: ../images//keyboard.jpg  used on input line 258.
@@ -1164,88 +1164,111 @@ Underfull \hbox (badness 10000) in paragraph at lines 270--271
  []
 
 [9 <../images//brainmap.jpg> <../images//keyboard.jpg>]
-<../images//eegnet_training.png, id=200, 597.6729pt x 284.0211pt>
+<../images//eegnet_training.png, id=212, 597.6729pt x 284.0211pt>
 File: ../images//eegnet_training.png Graphic file (type png)
 <use ../images//eegnet_training.png>
-Package pdftex.def Info: ../images//eegnet_training.png  used on input line 282
+Package pdftex.def Info: ../images//eegnet_training.png  used on input line 283
 .
 (pdftex.def)             Requested size: 375.80542pt x 178.58752pt.
 
-Underfull \hbox (badness 10000) in paragraph at lines 288--289
+Underfull \hbox (badness 10000) in paragraph at lines 289--290
 
  []
 
 [10 <../images//eegnet_training.png>]
-<../images//signal_clf_acc.png, id=209, 412.6617pt x 328.8285pt>
+<../images//signal_clf_acc.png, id=221, 412.6617pt x 328.8285pt>
 File: ../images//signal_clf_acc.png Graphic file (type png)
 <use ../images//signal_clf_acc.png>
-Package pdftex.def Info: ../images//signal_clf_acc.png  used on input line 297.
+Package pdftex.def Info: ../images//signal_clf_acc.png  used on input line 298.
 
 (pdftex.def)             Requested size: 227.62204pt x 181.37805pt.
-<../images//spelling_acc.png, id=210, 412.6617pt x 328.8285pt>
+<../images//spelling_acc.png, id=222, 412.6617pt x 328.8285pt>
 File: ../images//spelling_acc.png Graphic file (type png)
 <use ../images//spelling_acc.png>
-Package pdftex.def Info: ../images//spelling_acc.png  used on input line 301.
+Package pdftex.def Info: ../images//spelling_acc.png  used on input line 302.
 (pdftex.def)             Requested size: 227.62204pt x 181.37805pt.
 
-Underfull \hbox (badness 10000) in paragraph at lines 307--308
-
- []
-
-[11 <../images//signal_clf_acc.png> <../images//spelling_acc.png>]
-Underfull \hbox (badness 10000) in paragraph at lines 315--316
+Underfull \hbox (badness 10000) in paragraph at lines 308--309
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 318--319
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 321--322
-
- []
-
-(./final_report.bbl
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
- [12])
-[13] (./final_report.aux)
+ [11 <../images//signal_clf_acc.png> <../images//spelling_acc.png>]
+<../images//extra1/accuracy.png, id=234, 412.6617pt x 327.3831pt>
+File: ../images//extra1/accuracy.png Graphic file (type png)
+<use ../images//extra1/accuracy.png>
+Package pdftex.def Info: ../images//extra1/accuracy.png  used on input line 321
+.
+(pdftex.def)             Requested size: 227.62204pt x 180.58078pt.
+<../images//extra1/avg_flashes_per_char.png, id=235, 412.6617pt x 327.3831pt>
+File: ../images//extra1/avg_flashes_per_char.png Graphic file (type png)
+<use ../images//extra1/avg_flashes_per_char.png>
+Package pdftex.def Info: ../images//extra1/avg_flashes_per_char.png  used on in
+put line 325.
+(pdftex.def)             Requested size: 227.62204pt x 180.58078pt.
+ [12 <../images//extra1/accuracy.png> <../images//extra1/avg_flashes_per_char.p
+ng>]
+<../images//extra2/spelling_acc(old).png, id=251, 412.6617pt x 328.8285pt>
+File: ../images//extra2/spelling_acc(old).png Graphic file (type png)
+<use ../images//extra2/spelling_acc(old).png>
+Package pdftex.def Info: ../images//extra2/spelling_acc(old).png  used on input
+ line 341.
+(pdftex.def)             Requested size: 227.62204pt x 181.37805pt.
+<../images//extra2/spelling_acc.png, id=252, 412.6617pt x 327.3831pt>
+File: ../images//extra2/spelling_acc.png Graphic file (type png)
+<use ../images//extra2/spelling_acc.png>
+Package pdftex.def Info: ../images//extra2/spelling_acc.png  used on input line
+ 345.
+(pdftex.def)             Requested size: 227.62204pt x 180.58078pt.
+
+Underfull \hbox (badness 10000) in paragraph at lines 357--358
+
+ []
+
+[13 <../images//extra2/spelling_acc(old).png> <../images//extra2/spelling_acc.p
+ng>]
+Underfull \hbox (badness 10000) in paragraph at lines 360--361
+
+ []
+
+(./final_report.bbl) [14] (./final_report.aux)
 Package rerunfilecheck Info: File `final_report.out' has not changed.
-(rerunfilecheck)             Checksum: 44B18BDFE0D9ED23270097159F9C4D09;1743.
+(rerunfilecheck)             Checksum: DBD1DA7CA86D47EF538AB02A04E9DF59;3042.
  ) 
 Here is how much of TeX's memory you used:
- 27415 strings out of 478994
- 480807 string characters out of 5858184
- 912044 words of memory out of 5000000
- 43992 multiletter control sequences out of 15000+600000
- 477772 words of font info for 268 fonts, out of 8000000 for 9000
+ 27447 strings out of 478994
+ 481881 string characters out of 5858184
+ 913720 words of memory out of 5000000
+ 44024 multiletter control sequences out of 15000+600000
+ 477077 words of font info for 257 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 86i,14n,117p,1757b,519s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 86i,14n,117p,1762b,519s stack positions out of 5000i,500n,10000p,200000b,80000s
 {/usr/local/texlive/2021/texmf-dist/fonts/enc/dvips/base/8r.enc}{/usr/local/t
 exlive/2021/texmf-dist/fonts/enc/dvips/cm-super/cm-super-t1.enc}</usr/local/tex
 live/2021/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb></usr/local/texl
 ive/2021/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx8.pfb></usr/local/texliv
 e/2021/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb></usr/local/texlive
 /2021/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi12.pfb></usr/local/texlive/
-2021/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi8.pfb></usr/local/texlive/20
-21/texmf-dist/fonts/type1/public/amsfonts/cm/cmmib10.pfb></usr/local/texlive/20
-21/texmf-dist/fonts/type1/public/amsfonts/cmextra/cmmib8.pfb></usr/local/texliv
-e/2021/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb></usr/local/texlive/
-2021/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb></usr/local/texlive/202
-1/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/local/texlive/2021
-/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb></usr/local/texlive/2021/t
-exmf-dist/fonts/type1/public/cm-super/sftt0800.pfb></usr/local/texlive/2021/tex
-mf-dist/fonts/type1/public/cm-super/sftt1200.pfb></usr/local/texlive/2021/texmf
--dist/fonts/type1/urw/times/utmb8a.pfb></usr/local/texlive/2021/texmf-dist/font
-s/type1/urw/times/utmbi8a.pfb></usr/local/texlive/2021/texmf-dist/fonts/type1/u
-rw/times/utmr8a.pfb></usr/local/texlive/2021/texmf-dist/fonts/type1/urw/times/u
-tmri8a.pfb>
-Output written on final_report.pdf (13 pages, 830801 bytes).
+2021/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi6.pfb></usr/local/texlive/20
+21/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi8.pfb></usr/local/texlive/2021
+/texmf-dist/fonts/type1/public/amsfonts/cm/cmmib10.pfb></usr/local/texlive/2021
+/texmf-dist/fonts/type1/public/amsfonts/cmextra/cmmib8.pfb></usr/local/texlive/
+2021/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb></usr/local/texlive/20
+21/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb></usr/local/texlive/2021/
+texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/local/texlive/2021/t
+exmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb></usr/local/texlive/2021/tex
+mf-dist/fonts/type1/public/cm-super/sftt0800.pfb></usr/local/texlive/2021/texmf
+-dist/fonts/type1/public/cm-super/sftt1200.pfb></usr/local/texlive/2021/texmf-d
+ist/fonts/type1/urw/times/utmb8a.pfb></usr/local/texlive/2021/texmf-dist/fonts/
+type1/urw/times/utmbi8a.pfb></usr/local/texlive/2021/texmf-dist/fonts/type1/urw
+/times/utmr8a.pfb></usr/local/texlive/2021/texmf-dist/fonts/type1/urw/times/utm
+ri8a.pfb>
+Output written on final_report.pdf (14 pages, 943962 bytes).
 PDF statistics:
- 302 PDF objects out of 1000 (max. 8388607)
- 248 compressed objects within 3 object streams
- 53 named destinations out of 1000 (max. 500000)
- 63647 words of extra memory for PDF output out of 74296 (max. 10000000)
+ 347 PDF objects out of 1000 (max. 8388607)
+ 283 compressed objects within 3 object streams
+ 64 named destinations out of 1000 (max. 500000)
+ 63691 words of extra memory for PDF output out of 74296 (max. 10000000)
 

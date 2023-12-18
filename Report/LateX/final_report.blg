@@ -4,45 +4,45 @@ The top-level auxiliary file: final_report.aux
 The style file: unsrtnat.bst
 Database file #1: references.bib
 Warning--empty school in elshout2009review
-You've used 9 entries,
+You've used 10 entries,
             2481 wiz_defined-function locations,
-            614 strings with 6635 characters,
-and the built_in function-call counts, 4022 in all, are:
-= -- 298
-> -- 295
+            621 strings with 6805 characters,
+and the built_in function-call counts, 4412 in all, are:
+= -- 329
+> -- 316
 < -- 3
-+ -- 108
-- -- 90
-* -- 364
-:= -- 686
-add.period$ -- 28
-call.type$ -- 9
-change.case$ -- 18
-chr.to.int$ -- 9
-cite$ -- 10
-duplicate$ -- 174
-empty$ -- 322
-format.name$ -- 101
-if$ -- 815
++ -- 116
+- -- 96
+* -- 399
+:= -- 749
+add.period$ -- 31
+call.type$ -- 10
+change.case$ -- 20
+chr.to.int$ -- 10
+cite$ -- 11
+duplicate$ -- 193
+empty$ -- 359
+format.name$ -- 108
+if$ -- 897
 int.to.chr$ -- 1
-int.to.str$ -- 10
-missing$ -- 8
-newline$ -- 53
-num.names$ -- 27
-pop$ -- 68
+int.to.str$ -- 11
+missing$ -- 9
+newline$ -- 58
+num.names$ -- 30
+pop$ -- 75
 preamble$ -- 1
-purify$ -- 9
+purify$ -- 10
 quote$ -- 0
-skip$ -- 98
+skip$ -- 108
 stack$ -- 0
-substring$ -- 173
-swap$ -- 23
+substring$ -- 193
+swap$ -- 25
 text.length$ -- 1
 text.prefix$ -- 0
 top$ -- 0
-type$ -- 63
+type$ -- 70
 warning$ -- 1
-while$ -- 32
+while$ -- 35
 width$ -- 0
-write$ -- 124
+write$ -- 137
 (There was 1 warning)
