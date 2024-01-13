@@ -1,0 +1,5 @@
+\beamer@sectionintoc {1}{Part 1. The Current Progress}{3}{0}{1}
+\beamer@sectionintoc {2}{Part 2. Review on Paper 1 (Farwell and Donchin, 1988)}{5}{0}{2}
+\beamer@sectionintoc {3}{Part 3. Review on Paper 2 (Mainsah et al, 2017)}{7}{0}{3}
+\beamer@sectionintoc {4}{Part 4. Summary}{9}{0}{4}
+\beamer@sectionintoc {5}{Part 5. Get Ready for the Next Step}{10}{0}{5}
